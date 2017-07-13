@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import router from './router';
+import moment from '../libs/moment';
 
 Vue.use(VueRouter);
 
@@ -32,6 +33,8 @@ let MyPi = (Vue, options) => {
 	Vue.prototype.$getState = () => {
 		return $state;
 	};
+
+	Vue.prototype.$moment = moment;
 };
 
 Vue.use(MyPi);

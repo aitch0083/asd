@@ -1,6 +1,7 @@
 <template>
 	<div class="login-form">
 		<legend>ASD - {{title}}</legend>
+		<time>{{time}}</time>
 	</div>
 </template>
 
@@ -10,16 +11,15 @@ import _      from 'lodash';
 
 let component = {
 	name: 'login-form',
-
 	data() {
 		return {
-			title: component.name
+			title: component.name,
+			time: this.$moment.format('YYYY MMMM DD, hh:mm:ss')
 		}
 	},
-	beforeMount(){
+	beforeMount() {
 	},
 	mounted() {
-		console.info(component.name, 'loaded');
 	},
 	methods: {
 
