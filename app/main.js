@@ -4,6 +4,7 @@ import VueI18n from 'vue-i18n'
 
 import router from './router';
 import moment from '../libs/moment';
+import config from '../configs/global.config';
 import translationPot from '../langs';
 
 Vue.use(VueRouter);
@@ -38,12 +39,13 @@ let MyPi = (Vue, options) => {
 	};
 
 	Vue.prototype.$moment = moment;
+	Vue.prototype.$config = config;
 };
 
 Vue.use(MyPi);
 
 let i18n = new VueI18n({
-	locale: 'en',
+	locale: config.locale,
 	messages: translationPot
 });
 

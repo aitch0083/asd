@@ -7,6 +7,7 @@ var favicon      = require('serve-favicon');
 var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
+var config       = require('./configs/global.config');
 
 /**
  * Controllers
@@ -17,6 +18,7 @@ var Backend  = require('./routes/backend/index');
 
 // init
 var app = express();
+app.locals.config = config;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
