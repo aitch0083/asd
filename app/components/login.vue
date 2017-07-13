@@ -58,8 +58,8 @@ let component = {
 
 		submitForm(event) {
 
-			let email    = this.form.email;
-			let password = this.form.password;
+			let email    = _.escape(_.trim(this.form.email));
+			let password = _.escape(_.trim(this.form.password));
 			let isOkay   = true;
 
 			this.form.emailerror    = null;
