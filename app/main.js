@@ -1,10 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueI18n from 'vue-i18n'
 
 import router from './router';
 import moment from '../libs/moment';
+import translationPot from '../langs';
 
 Vue.use(VueRouter);
+Vue.use(VueI18n)
 
 let Store = () => {
 
@@ -39,7 +42,13 @@ let MyPi = (Vue, options) => {
 
 Vue.use(MyPi);
 
+let i18n = new VueI18n({
+	locale: 'en',
+	messages: translationPot
+});
+
 new Vue({
 	router,
+	i18n,
 	el: '#app'
 });

@@ -2,6 +2,7 @@
 	<div class="login-form">
 		<legend>ASD - {{title}}</legend>
 		<time>{{time}}</time>
+		<h6>{{$t("message.hello")}}</h6>
 	</div>
 </template>
 
