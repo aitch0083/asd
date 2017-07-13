@@ -8,6 +8,7 @@
     "build": "cross-env NODE_ENV=production browserify -g envify app/main.js | uglifyjs -c warnings=false -m > public/javascripts/bundle.js "
   },
   "dependencies": {
+    "anchorme": "^1.1.2",
     "async": "^2.3.0",
     "axios": "^0.15.3",
     "babel-helper-vue-jsx-merge-props": "^2.0.2",

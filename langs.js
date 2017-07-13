@@ -9,7 +9,13 @@ module.exports = {
 			notiification_count: 'You have {count} notifications',
 			task_count: 'You have {count} tasks',
 			view_all: 'View All',
-
+			login_form_title: 'Login',
+			email_field: 'Email',
+			password_field: 'Password',
+			submit_btn: 'Submit',
+			cancel_btn: 'Cancel',
+			invalid_email: 'Invalid Email',
+			invalid_password: 'Invalid Password',
 			backend: {
 				description: 'ASD is CMS'
 			}

@@ -14,7 +14,7 @@ var config       = require('./configs/global.config');
  */
 var Frontend = require('./routes/frontend/index');
 var Backend  = require('./routes/backend/index');
-
+var Api      = require('./routes/backend/api');
 
 // init
 var app = express();
@@ -34,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // regiter controllers to route
 app.use('/', Frontend);
 app.use('/backend', Backend);
+app.use('/api', Api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
