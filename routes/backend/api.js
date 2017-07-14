@@ -1,16 +1,9 @@
 var express = require('express');
 var router  = express.Router();
 
-var User = require('../../models/user');
+//import controllers
+var users = require('./users');
 
-router.get('/', function(req, res, next){
-	res.json({
-		result: true,
-		message: 'API'
-	});
-	// User.findAndCountAll().then(function(result){
-	// 	res.json(result);
-	// });
-});
+router.use('/users', users);
 
 module.exports = router;

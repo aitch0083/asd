@@ -6,9 +6,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`about_me` VARCHAR(255) DEFAULT "",
 	`type`     ENUM('usual','admin') NOT NULL DEFAULT "usual",
 	`sex`      ENUM('male','female','unknown') NOT NULL DEFAULT "unknown",
+	`valid`    BOOL NOT NULL DEFAULT 1,
 	`created`  DATETIME,
 	`modified` DATETIME,
-	INDEX(`email`, `password`),
+	INDEX(`email`, `password`, `valid`),
 	INDEX(`type`),
 	INDEX(`name`, `email`, `password`)
 )ENGINE=MyISAM CHARSET utf8; 

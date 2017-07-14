@@ -10,6 +10,7 @@ var User = sequelize.define('users', {
 	about_me: { type: SZ.STRING(255), allowNull: true, field: 'about_me'},
 	type:     { type: SZ.ENUM('usual','admin'), defaultValue: 'usual', field:'type'},
 	sex:      { type: SZ.ENUM('male','female','unknown'), allowNull: false, defaultValue: 'unknown', field: 'sex'},
+	valid:    { type: SZ.BOOLEAN, allowNull: false, defaultValue: 1},
 	created:  { type: SZ.DATE, allowNull: false, field: 'created'},
 	modified: { type: SZ.DATE, allowNull: true, field: 'modified'}
 }, {

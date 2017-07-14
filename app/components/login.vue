@@ -1,16 +1,19 @@
 <template>
 	<div class="login-module">
-		<AdminHeader 
+		
+		<!-- <AdminHeader 
 			:messages="messages" 
 			:notifications="notifications" 
-			:tasks="tasks" />
-		<div class="content-wrapper">
+			:tasks="tasks" /> -->
+
+		<div class="">
 
 			<div class="box box-info login-form">
 			    <div class="box-header with-border">
 			        <h3 class="box-title">{{$t("message.login_form_title")}}</h3>
 			    </div>
 			    <!-- /.box-header -->
+
 			    <!-- form start -->
 			    <form ref="login-form" class="form-horizontal" v-model="form">
 			        <div class="box-body">
@@ -29,13 +32,16 @@
 			                </div>
 			            </div>
 			        </div>
+
 			        <!-- /.box-body -->
 			        <div class="box-footer">
 			            <button type="button" class="btn btn-default pull-right" @click="resetForm">{{$t("message.cancel_btn")}}</button>
 			            <button type="button" class="btn btn-info pull-right" @click="submitForm">{{$t("message.submit_btn")}}</button>
 			        </div>
 			        <!-- /.box-footer -->
-			    </form>
+			    
+			    </form><!-- EO form -->
+
 			</div><!-- EO box-info --> 
 			
         </div><!-- EO content-wrapper -->
@@ -48,6 +54,7 @@ import _      from 'lodash';
 import anchorme from 'anchorme';
 
 import AdminHeader from './admin.header.vue';
+import toastr from '../../libs/toastr';
 
 let component = {
 	name: 'login-form',
@@ -73,6 +80,29 @@ let component = {
 			if(!password.length){
 				this.form.passworderror = this.$t("message.invalid_password");
 				isOkay = false;
+			}
+
+			if(isOkay){
+				axios.post('/api/users/login', {
+					username: email,
+					password: password
+				}).then((result) => {
+
+					this.$refs['login-form'].reset();
+						
+					if(result.status === 200 && result.data.success){
+						toastr(this.$t(result.data.message), this.$t("message.success"), 'success');
+						this.$state.$set('user', result.data.user);
+						this.$router.push('/app/dashboard');
+					} else {
+						toastr(this.$t(result.data.message), this.$t("message.warning"), 'warning');
+					}
+
+				}).catch((error) => {
+					toastr(error, this.$t("message.error"), 'error');
+				});	
+			} else {
+				toastr(this.$t("message.fix_error_first"), this.$t("message.error"), 'error');
 			}
 
 			event.preventDefault();
@@ -112,15 +142,9 @@ export default component;
 .btn{
 	margin-right: 0.5rem;
 }
-.wrapper{
-	background-color: #ECF0F5 !important;
-}
-.content-wrapper{
-	width: 100%;
-	margin-left: 0px; 
-}
 .login-form{
 	width: 40%;
+	height: 20%;
 	margin: 7% auto;
 }
 </style>

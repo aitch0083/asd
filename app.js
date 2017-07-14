@@ -8,6 +8,7 @@ var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var config       = require('./configs/global.config');
+var session      = require('express-session');
 
 /**
  * Controllers
@@ -24,12 +25,21 @@ app.locals.config = config;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(function(req, res, next) {
+	res.header('Access-Control-Allow-Credentials', true);
+	res.header('Access-Control-Allow-Origin', req.headers.origin);
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+	res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+	next();
+});
+
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session(config.session));
 
 // regiter controllers to route
 app.use('/', Frontend);
