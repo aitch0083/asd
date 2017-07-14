@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueI18n from 'vue-i18n'
+import VueResource from 'vue-resource';
 import cookie from 'browser-cookies';
 
 import router from './router';
@@ -9,7 +10,8 @@ import config from '../configs/global.config';
 import translationPot from '../langs';
 
 Vue.use(VueRouter);
-Vue.use(VueI18n)
+Vue.use(VueI18n);
+Vue.use(VueResource);
 
 let Store = () => {
 

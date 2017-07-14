@@ -1,55 +1,47 @@
 <template>
 	<div class="login-module">
 		
-		<!-- <AdminHeader 
-			:messages="messages" 
-			:notifications="notifications" 
-			:tasks="tasks" /> -->
+		
+		<div class="box box-info login-form">
+		    <div class="box-header with-border">
+		        <h3 class="box-title">{{$t("message.login_form_title")}}</h3>
+		    </div>
+		    <!-- /.box-header -->
 
-		<div class="">
+		    <!-- form start -->
+		    <form ref="login-form" class="form-horizontal" v-model="form">
+		        <div class="box-body">
+		            <div class="form-group" :class="{ 'has-error':form.emailerror }">
+		                <label for="inputEmail" class="col-sm-2 control-label">{{$t("message.email_field")}}</label>
+		                <div class="col-sm-10">
+		                    <input type="email" class="form-control" id="inputEmail" v-model="form.email" v-focus>
+		                    <span class="help-block" v-if="form.emailerror">{{form.emailerror}}</span>
+		                </div>
+		            </div>
+		            <div class="form-group" :class="{ 'has-error':form.passworderror }">
+		                <label for="inputPassword" class="col-sm-2 control-label">{{$t("message.password_field")}}</label>
+		                <div class="col-sm-10">
+		                    <input type="password" class="form-control" id="inputPassword" v-model="form.password">
+		                    <span class="help-block" v-if="form.passworderror">{{form.passworderror}}</span>
+		                </div>
+		            </div>
+		        </div>
 
-			<div class="box box-info login-form">
-			    <div class="box-header with-border">
-			        <h3 class="box-title">{{$t("message.login_form_title")}}</h3>
-			    </div>
-			    <!-- /.box-header -->
+		        <!-- /.box-body -->
+		        <div class="box-footer">
+		            <button type="button" class="btn btn-default pull-right" @click="resetForm">{{$t("message.cancel_btn")}}</button>
+		            <button type="button" class="btn btn-info pull-right" @click="submitForm">{{$t("message.submit_btn")}}</button>
+		        </div>
+		        <!-- /.box-footer -->
+		    
+		    </form><!-- EO form -->
 
-			    <!-- form start -->
-			    <form ref="login-form" class="form-horizontal" v-model="form">
-			        <div class="box-body">
-			            <div class="form-group" :class="{ 'has-error':form.emailerror }">
-			                <label for="inputEmail" class="col-sm-2 control-label">{{$t("message.email_field")}}</label>
-			                <div class="col-sm-10">
-			                    <input type="email" class="form-control" id="inputEmail" v-model="form.email">
-			                    <span class="help-block" v-if="form.emailerror">{{form.emailerror}}</span>
-			                </div>
-			            </div>
-			            <div class="form-group" :class="{ 'has-error':form.passworderror }">
-			                <label for="inputPassword" class="col-sm-2 control-label">{{$t("message.password_field")}}</label>
-			                <div class="col-sm-10">
-			                    <input type="password" class="form-control" id="inputPassword" v-model="form.password">
-			                    <span class="help-block" v-if="form.passworderror">{{form.passworderror}}</span>
-			                </div>
-			            </div>
-			        </div>
-
-			        <!-- /.box-body -->
-			        <div class="box-footer">
-			            <button type="button" class="btn btn-default pull-right" @click="resetForm">{{$t("message.cancel_btn")}}</button>
-			            <button type="button" class="btn btn-info pull-right" @click="submitForm">{{$t("message.submit_btn")}}</button>
-			        </div>
-			        <!-- /.box-footer -->
-			    
-			    </form><!-- EO form -->
-
-			</div><!-- EO box-info --> 
+		</div><!-- EO login-form --> 
 			
-        </div><!-- EO content-wrapper -->
 	</div>
 </template>
 
 <script>
-import axios  from 'axios';
 import _      from 'lodash';
 import anchorme from 'anchorme';
 
@@ -83,7 +75,8 @@ let component = {
 			}
 
 			if(isOkay){
-				axios.post('/api/users/login', {
+
+				this.$http.post('/api/users/login', {
 					username: email,
 					password: password
 				}).then((result) => {
@@ -98,9 +91,10 @@ let component = {
 						toastr(this.$t(result.data.message), this.$t("message.warning"), 'warning');
 					}
 
-				}).catch((error) => {
-					toastr(error, this.$t("message.error"), 'error');
-				});	
+				}, (error) => {
+					toastr(error.statusText, this.$t("message.error"), 'error');
+				});
+				
 			} else {
 				toastr(this.$t("message.fix_error_first"), this.$t("message.error"), 'error');
 			}
@@ -143,7 +137,7 @@ export default component;
 	margin-right: 0.5rem;
 }
 .login-form{
-	width: 40%;
+	width: 27%;
 	height: 20%;
 	margin: 7% auto;
 }

@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import axios  from 'axios';
 import _      from 'lodash';
 
 import toastr from '../../libs/toastr';
@@ -54,7 +53,7 @@ export default {
 
 			let user = this.$state.$get('user');
 
-			axios.post('/api/users/logout',{
+			this.$http.post('/api/users/logout',{
 				uid: user.created
 			}).then((result) => {
 
@@ -66,9 +65,9 @@ export default {
 					toastr(this.$t(result.data.message), this.$t("message.warning"), 'warning');
 				}
 
-			}).catch((error) => {
-				toastr(error, this.$t("message.error"), 'error');
-			});	
+			}, (error) => {
+				toastr(error.statusText, this.$t("message.error"), 'error');
+			});
 		}
 	},
 	data() {
