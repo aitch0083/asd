@@ -1,17 +1,19 @@
 CREATE TABLE IF NOT EXISTS `users` (
-	`id`        SERIAL,
-	`name`     VARCHAR(35) NOT NULL,
-	`email`    VARCHAR(40) NOT NULL,
-	`password` VARCHAR(40) NOT NULL,
-	`about_me` VARCHAR(255) DEFAULT "",
-	`type`     ENUM('usual','admin') NOT NULL DEFAULT "usual",
-	`sex`      ENUM('male','female','unknown') NOT NULL DEFAULT "unknown",
-	`valid`    BOOL NOT NULL DEFAULT 1,
-	`created`  DATETIME,
-	`modified` DATETIME,
+	`id`           SERIAL,
+	`name`         VARCHAR(35) NOT NULL,
+	`display_name` VARCHAR(35) NOT NULL,
+	`email`        VARCHAR(40) NOT NULL,
+	`password`     VARCHAR(40) NOT NULL,
+	`about_me`     VARCHAR(255) DEFAULT "",
+	`type`         ENUM('usual','admin') NOT NULL DEFAULT "usual",
+	`sex`          ENUM('male','female','unknown') NOT NULL DEFAULT "unknown",
+	`valid`        BOOL NOT NULL DEFAULT 1,
+	`created`      DATETIME,
+	`modified`     DATETIME,
 	INDEX(`email`, `password`, `valid`),
 	INDEX(`type`),
-	INDEX(`name`, `email`, `password`)
+	INDEX(`name`, `email`, `password`),
+	INDEX(`display_name`)
 )ENGINE=MyISAM CHARSET utf8; 
 
 CREATE TABLE IF NOT EXISTS `articles` (

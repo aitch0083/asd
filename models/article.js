@@ -1,6 +1,6 @@
 var _         = require('lodash');
-var DBConfig  = require('../configs/database.configs');
-var configs   = require('../configs/global.configs');
+var DBConfig  = require('../configs/database.config');
+var configs   = require('../configs/global.config');
 var SZ        = require('sequelize');
 var sequelize = new SZ(DBConfig.name, DBConfig.user, DBConfig.pass, DBConfig);
 

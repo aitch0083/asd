@@ -32,6 +32,17 @@ module.exports = {
 			page_view: 'Page View',
 			menu: 'Menu',
 			logout: 'Logout',
+			article_editor: 'Article Editor',
+			id: 'ID',
+			title: 'Title',
+			category: 'Category',
+			author: 'Author',
+			top: 'Top',
+			online_time: 'Online Time',
+			created: 'Created',
+			modified: 'Modified',
+			actions: 'Actions',
+			
 			backend: {
 				description: 'ASD is CMS'
 			}

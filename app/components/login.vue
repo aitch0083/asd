@@ -124,8 +124,15 @@ let component = {
 		}
 	},//eo data
 	beforeMount() {
+		
+		$('body').removeClass('hold-transition skin-blue sidebar-mini');
+		$('#app').removeClass('wrapper');
+
 	},//eo beforeMount
 	mounted() {
+		
+		$(window).trigger('resize');
+
 	},//eo mounted
 };//eo component 
 

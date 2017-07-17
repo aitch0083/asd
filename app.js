@@ -21,6 +21,13 @@ var Api      = require('./routes/backend/api');
 var app = express();
 app.locals.config = config;
 
+// MemoryStore is the key for session to work with Express 4.x
+var MemoryStore    = session.MemoryStore;
+var session_config = config.session;
+
+session_config.store = new MemoryStore();
+session_config.saveUninitialized = true;
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -39,7 +46,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session(config.session));
+app.use(session(session_config));
 
 // regiter controllers to route
 app.use('/', Frontend);

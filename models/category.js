@@ -1,4 +1,4 @@
-var DBConfig  = require('../configs/database.configs');
+var DBConfig  = require('../configs/database.config');
 var SZ        = require('sequelize');
 var sequelize = new SZ(DBConfig.name, DBConfig.user, DBConfig.pass, DBConfig);
 
