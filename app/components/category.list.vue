@@ -116,7 +116,7 @@ let component = {
 
 	data() {
 		return {
-			activeItem: 'user_list',
+			activeItem: 'category_list',
 			messages:[],
 			notifications:[],
 			tasks:[],

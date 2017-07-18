@@ -78,7 +78,7 @@ router.post('/index', function(req, res, next){
 			offset: offset,
 			order: order,
 			include: [
-				{ model:User, as:'User', required: true, where: user_conditions, attributes:['email', 'id', 'name'] }
+				{ model:User, as:'User', required: false, where: user_conditions, attributes:['email', 'id', 'name'] }
 			]
 		})
 
