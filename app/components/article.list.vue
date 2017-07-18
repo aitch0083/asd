@@ -13,7 +13,7 @@
 				<section class="content-header">
 			      <h1>
 			        {{$t("message.article_list")}}
-			        <small><i class="fa fa-font"></i></small>
+			        <small><i class="fa fa-file-text"></i></small>
 			      </h1>
 			      <ol class="breadcrumb">
 			        <li><a href="/backend/#/app/dashboard"><i class="fa fa-dashboard"></i>{{$t("message.dashboard")}}</a></li>
@@ -26,15 +26,15 @@
 			    	<table id="article_datatable" class="datatable table table-striped table-bordered dt-responsive nowrap" cellspacing="0">
 			    		<thead>
 			    			<tr>
-			    				<th data-column-id="id" data-type="numeric" data-identifier="true" data-order="desc">{{$t('message.id')}}</th>
-			    				<th data-column-id="title">{{$t('message.title')}}</th>
+			    				<th data-column-id="id" data-type="numeric" data-identifier="true" data-order="desc" data-width="60" data-align="right">{{$t('message.id')}}</th>
+			    				<th data-column-id="title" data-width="350">{{$t('message.title')}}</th>
 			    				<th data-column-id="category" data-formatter="category">{{$t('message.category')}}</th>
 			    				<th data-column-id="author" data-formatter="author">{{$t('message.author')}}</th>
-			    				<th data-column-id="at_top" data-formatter="at_top">{{$t('message.top')}}</th>
-			    				<th data-column-id="start_time">{{$t('message.online_time')}}</th>
-			    				<th data-column-id="created">{{$t('message.created')}}</th>
-			    				<th data-column-id="modified">{{$t('message.modified')}}</th>
-			    				<th data-column-id="actions" data-formatter="actions" data-sortable="false">{{$t('message.actions')}}</th>
+			    				<th data-column-id="at_top" data-formatter="at_top" data-align="center">{{$t('message.top')}}</th>
+			    				<th data-column-id="start_time" data-formatter="datetime" data-width="120" data-align="center">{{$t('message.online_time')}}</th>
+			    				<th data-column-id="created" data-formatter="datetime" data-width="120" data-align="center">{{$t('message.created')}}</th>
+			    				<th data-column-id="modified" data-formatter="datetime" data-width="120" data-align="center">{{$t('message.modified')}}</th>
+			    				<th data-column-id="actions" data-formatter="actions" data-sortable="false" data-width="120" data-align="center">{{$t('message.actions')}}</th>
 			    			</tr>
 			    		</thead>
 			    		<tbody></tbody>
@@ -75,10 +75,12 @@ let component = {
 	},
 
 	mounted() {
+
+		let app = this;
+
 		//trigger the resize event to adopt the dimension of the viewport
 		$(window).trigger('resize');
 
-		console.info('created');
 		datatable = $("#article_datatable").bootgrid({
 		    ajax: true,
 		    post: function () {
@@ -90,7 +92,8 @@ let component = {
 		    formatters: {
 		        actions: function(column, row) {
 		            return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-pencil\"></span></button> " + 
-		                   "<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-trash-o\"></span></button>";
+		                   "<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-trash-o\"></span></button>" + 
+		                   "<a href=\""+app.$config.frontend.url+"articles/read/"+row.id+".html\" class=\"btn btn-xs btn-default\" target=\"_blank\" ><span class=\"fa fa-eye\"></span></a>";
 		        },
 		        category: function(column, row){
 		        	return row.Category.title;
@@ -100,6 +103,12 @@ let component = {
 		        },
 		        at_top: function(column, row){
 		        	return row.at_top ? '<i class="text-green fa fa-check"></i>' : '<i class="text-yellow fa fa-times"></i>'
+		        },
+		        datetime: function(column, row){
+
+		        	let _t = row[column.id] ? app.$moment(row[column.id]).format('YYYY/MM/DD hh:mm') : '----';
+
+		        	return _t;
 		        }
 		    }
 		});

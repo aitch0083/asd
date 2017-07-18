@@ -91,3 +91,52 @@ CREATE TABLE IF NOT EXISTS  `categories` (
   INDEX(`level`,`display`,`type`,`for_admin`),
   INDEX(`level`,`display`,`type`,`for_admin`,`position`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Table for storing categories for article records. The catego';
+
+CREATE TABLE IF NOT EXISTS `banners` (
+  `id`          int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `description` varchar(100) NOT NULL,
+  `img1`        varchar(155) NOT NULL,
+  `img2`        varchar(155) DEFAULT NULL,
+  `img3`        varchar(155) DEFAULT NULL,
+  `img4`        varchar(155) DEFAULT NULL,
+  `img5`        varchar(155) DEFAULT NULL,
+  `img6`        varchar(155) DEFAULT NULL,
+  `mimg`        varchar(155) DEFAULT NULL,
+  `url`         varchar(155) NOT NULL,
+  `display_old` tinyint(1) NOT NULL DEFAULT '0',
+  `target`      enum('_self','_blank') NOT NULL DEFAULT '_blank',
+  `online`      tinyint(1) NOT NULL,
+  `start_time`  datetime NOT NULL,
+  `end_time`    datetime NOT NULL,
+  `type`        enum('huge','medium','small') NOT NULL DEFAULT 'medium',
+  `position`    enum('1','2','3') NOT NULL DEFAULT '1',
+  `is_youtube`  tinyint(1) DEFAULT '0',
+  `creator_id`  bigint(20) unsigned NOT NULL,
+  `created`     datetime NOT NULL,
+  `modified`    datetime DEFAULT NULL,
+  `valid`       tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY       KEY (`id`),
+  KEY           `img1` (`img1`,`url`,`target`),
+  KEY           `start_time` (`start_time`,`end_time`),
+  KEY           `display_old` (`display_old`),
+  KEY           `start_time_2` (`start_time`,`type`,`online`,`end_time`,`display_old`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `images` (
+  `id`       bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name`     varchar(125) NOT NULL,
+  `path`     varchar(255) NOT NULL,
+  `ip`       varchar(45) NOT NULL,
+  `size`     varchar(45) NOT NULL,
+  `width`    varchar(5) NOT NULL,
+  `height`   varchar(5) NOT NULL,
+  `user_id`  bigint(20) unsigned NOT NULL DEFAULT '0',
+  `model`    varchar(50) NOT NULL DEFAULT '',
+  `model_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `created`  datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `valid`    tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY    KEY (`id`),
+  UNIQUE     KEY `images_path` (`path`),
+  KEY        `model_key` (`model`,`model_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

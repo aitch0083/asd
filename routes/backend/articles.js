@@ -8,7 +8,7 @@ var User     = require('../../models/user');
 var Category = require('../../models/category');
 
 var Promise = SZ.Promise;
-var now     = moment.format('YYYY-MM-DD HH:mm:ss');
+var now     = moment('YYYY-MM-DD HH:mm:ss');
 var router  = express.Router();
 
 var front_datatable_columns = [
@@ -123,6 +123,6 @@ router.post('/index', function(req, res, next){
 		next(error);
 	}); //eo Promise
 	
-});//eo /login
+});//eo /index
 
 module.exports = router;

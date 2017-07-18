@@ -1,5 +1,6 @@
-var config               = require('../configs/global.config');
-var moment               = require('moment-timezone');
-var moment_with_timezone = moment.tz(config.timezone);
+var config = require('../configs/global.config');
+var moment = require('moment-timezone');
 
-module.exports = moment_with_timezone;
+moment.tz.setDefault(config.timezone);
+
+module.exports = moment;
