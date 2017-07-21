@@ -12,6 +12,13 @@ module.exports = {
 			login_form_title: 'Login',
 			email_field: 'Email',
 			password_field: 'Password',
+			title_field: 'Title',
+			author_field: 'Author',
+			category_field: 'Category',
+			keyword_field: 'Keyword',
+			approved_field: 'Approved',
+			at_top_field: 'At Top',
+			watermark_field: 'Watermark',
 			submit_btn: 'Submit',
 			cancel_btn: 'Cancel',
 			invalid_email: 'Invalid Email',
@@ -60,11 +67,34 @@ module.exports = {
 			email: 'Email',
 			parent: 'Parent',
 			level: 'Level',
+			others: 'Others',
 
 			add_article: 'Add Article',
 			add_banner: 'Add Banner',
 			add_category: 'Add Category',
 			add_user: 'Add User',
+
+			select_author: 'Select author',
+			select_category: 'Select category',
+			please_select_category: 'Please select category',
+			please_select_user: 'Please select author',
+			please_fill_title: 'Please fill title',
+			please_write_something: 'Please write something',
+			article_saved: 'Article saved',
+			unable_to_save: 'Unable to save article',
+			are_you_sure: 'Are you sure?',
+			record_deleted: 'Record deleted',
+
+			save: 'Save',
+			close: 'Close',
+
+			panorama: 'Panorama',
+			marcomarco: 'Marco/Marco',
+			marco_left: 'Marco Left',
+			marco_right: 'Marco Right',
+			please_select_image: 'Please select 1 image',
+			please_select_2_images: 'Please select 2 images',
+			marco_image_dimension_dismatch: 'Marco/Marco images do not have same sizes, please upload again',
 			
 			backend: {
 				description: 'ASD is CMS'

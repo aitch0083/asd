@@ -22,7 +22,7 @@ var front_datatable_columns = [
 	'modified'
 ];
 
-var banner_conditions = {};
+var banner_conditions = {valid: 1};
 var user_conditions   = {};
 
 Banner.belongsTo(User, {foreignKey:'creator_id', as:'User'});

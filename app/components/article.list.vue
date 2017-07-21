@@ -90,27 +90,45 @@ let component = {
 		    },
 		    url: "/api/articles/index",
 		    formatters: {
-		        actions: function(column, row) {
-		            return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-pencil\"></span></button> " + 
+		        actions (column, row) {
+		            return "<a href=\"/backend/#/app/edit_article/" + row.id +"\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-pencil\"></span></a> " + 
 		                   "<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-trash-o\"></span></button>" + 
 		                   "<a href=\""+app.$config.frontend.url+"articles/read/"+row.id+".html\" class=\"btn btn-xs btn-default\" target=\"_blank\" ><span class=\"fa fa-eye\"></span></a>";
 		        },
-		        category: function(column, row){
+		        category (column, row){
 		        	return row.Category.title;
 		        },
-		        author: function(column, row){
+		        author (column, row){
 		        	return row.User.name;
 		        },
-		        at_top: function(column, row){
+		        at_top (column, row){
 		        	return row.at_top ? '<i class="text-green fa fa-check"></i>' : '<i class="text-yellow fa fa-times"></i>'
 		        },
-		        datetime: function(column, row){
+		        datetime (column, row){
 
-		        	let _t = row[column.id] ? app.$moment(row[column.id]).format('YYYY/MM/DD hh:mm') : '----';
+		        	let _t = row[column.id] ? app.$moment(row[column.id]).format('YYYY/MM/DD HH:mm') : '----';
 
 		        	return _t;
 		        }
 		    }
+		}).on("loaded.rs.jquery.bootgrid", () => {
+		    datatable.find(".command-delete").on("click", function(e) {
+		    	let id = $(this).data("row-id");
+		    	if(confirm(app.$t("message.are_you_sure"))){
+		    		app.$http.delete('/api/articles', {body: {id: id}}).then((result) => {
+
+		    			if(result.status === 200 && result.data.id){
+		    				toastr(result.message, app.$t("message.record_deleted"), 'success');
+		    				datatable.bootgrid('reload');
+						}else{
+							toastr(result.message, app.$t("message.error"), 'error');
+						}
+
+		    		}, (error) => {
+		    			toastr(error.statusText, app.$t("message.error"), 'error');
+		    		});
+		    	};
+		    });
 		});
 	},
 

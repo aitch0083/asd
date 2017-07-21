@@ -106,7 +106,7 @@ let component = {
 		        },
 		        datetime: function(column, row){
 
-		        	let _t = row[column.id] ? app.$moment(row[column.id]).format('YYYY/MM/DD hh:mm') : '----';
+		        	let _t = row[column.id] ? app.$moment(row[column.id]).format('YYYY/MM/DD HH:mm') : '----';
 
 		        	return _t;
 		        }

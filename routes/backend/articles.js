@@ -1,11 +1,15 @@
-var SZ       = require('sequelize');
-var _        = require('lodash');
-var express  = require('express');
-var moment   = require('../../libs/moment');
-var config   = require('../../configs/global.config');
-var Article  = require('../../models/article');
-var User     = require('../../models/user');
-var Category = require('../../models/category');
+var SZ           = require('sequelize');
+var _            = require('lodash');
+var express      = require('express');
+var moment       = require('../../libs/moment');
+var config       = require('../../configs/global.config');
+var Article      = require('../../models/article');
+var User         = require('../../models/user');
+var Category     = require('../../models/category');
+var path         = require('path');
+var fs           = require('fs');
+var cheerio      = require('cheerio');
+var sanitizeHtml = require('sanitize-html');
 
 var Promise = SZ.Promise;
 var now     = moment('YYYY-MM-DD HH:mm:ss');
@@ -22,12 +26,79 @@ var front_datatable_columns = [
 	'modified'
 ];
 
-var article_conditions  = {};
+var article_conditions  = {valid: 1};
 var category_conditions = {};
 var user_conditions     = {};
 
+var validator = function(req, res){
+
+	var signed_user = req.session.user;
+
+	if(!signed_user && !config.debug){
+		
+		return {
+			success: false,
+			message: "message.login_required"
+		};
+
+	} else {
+		return {
+			user_id: config.debug ? 1 : signed_user.id,
+			success: true,
+			message: "message.login_required"
+		};
+	}
+};
+
 Article.belongsTo(User, {foreignKey:'user_id', as:'User'});
 Article.belongsTo(Category, {foreignKey:'category_id', as:'Category'});
+
+router.get('/new', function(req, res, next){
+
+	var signed_user = req.session.user;
+
+	if(!signed_user && !config.debug){
+		
+		res.json({
+			success: false,
+			message: "message.login_required"
+		});
+
+		return false;
+	}
+
+	if(config.debug){
+		signed_user = {
+			id: 1
+		};
+	}
+
+	let now = moment();
+
+	Article.create({
+		title: 'new article ('+now.format('YYYY-MM-DD HH:mm')+')',
+		valid: 1,
+		start_time: null,
+		approved: 0,
+		at_top: 0,
+		user_id: signed_user.id
+	})
+	.then(function(article){
+		article.category_id = null;
+		res.json({
+			success: true,
+			message: 'Article created',
+			record: article
+		});
+	})
+	.catch(function(error){
+		res.json({
+			success: false,
+			error: error,
+			message: 'Unable to create article'
+		});
+	});
+});
 
 router.post('/index', function(req, res, next){
 
@@ -124,5 +195,161 @@ router.post('/index', function(req, res, next){
 	}); //eo Promise
 	
 });//eo /index
+
+router.get('/:id', function(req, res, next) {
+	
+	var result = validator(req, res);
+
+	if(result.success){
+
+		var id = req.params.id;
+
+		if(!id){
+			throw new Error('Invalid article ID');
+		} 
+
+		Article.findOne({where: {id: id}, valid: 1}).then(function(result){
+
+			if(!result){
+				throw new Error('Invalid article');
+			}
+
+			res.json({
+				success: true,
+				record: result
+			});
+
+		}).catch(function(error){
+			console.error(error);
+
+			res.json({
+				success: false,
+				error: error 
+			});
+		});
+
+	} else {
+		res.json(result);
+	}
+});
+
+router.put('/', function(req, res, next) {
+	var result = validator(req, res);
+
+	if(result.success){
+
+		// console.info('req.body:', req.body);
+
+		var record = req.body;
+		var id     = record.id;
+
+		Article.find({where:{id:id}})
+		.then(function(article){
+
+			//find the first image in the content
+			var $document = cheerio.load(record.content);
+			var first_img = $document('img').first();
+
+			if(first_img){
+				record.thumbnail = first_img.attr('src');
+			}
+			
+			record.content = sanitizeHtml(record.content, {
+				allowedTags: [ 
+				  'h1','h2','h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
+				  'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div', 'img',
+				  'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe',
+				  'font', 'span'
+				],
+				allowedAttributes: {
+				  a:    [ 'href', 'name', 'target', 'title'],
+				  img:  [ 'src', 'style', 'class' ],
+				  font: [ 'face', 'style'],
+				  span: [ 'style'],
+				  div:  [ 'style', 'class' ],
+				  iframe: ['style', 'src', 'width', 'height', 'frameborder', 'allowfullscreen', 'class']
+				},
+				// Lots of these won't come up by default because we don't allow them 
+				selfClosing: [ 'img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta' ],
+				// URL schemes we permit 
+				allowedSchemes: [ 'http', 'https', 'mailto' ],
+				allowProtocolRelative: true
+			});
+
+			article.updateAttributes(record).then(function(article){
+
+				//clear the cache if any
+				var cache_file_name = path.join(__dirname, '../public/articles/read', id + '.html');
+
+				if(fs.existsSync(cache_file_name)){
+					fs.unlink(cache_file_name);
+				}
+
+				res.json({
+					success: true,
+					record: article
+				});
+			})
+
+			.catch(function(error){
+
+				console.info('error @ /articles PUT:', error);
+
+				res.json({
+					success: false,
+					error: error 
+				});
+			});
+		})
+		.catch(function(error){
+
+			console.info('error @ /articles PUT:', error);
+
+			res.json({
+				success: false,
+				error: error 
+			});
+		});
+
+	}else {
+		res.json(result);
+	}
+});
+
+router.delete('/', function(req, res, next) {
+	var result = validator(req, res);
+
+	if(result.success){
+
+		var record = req.body;
+		var id     = record.id;
+
+		Article.find({where:{id:id}})
+		.then(function(article){
+
+			article.updateAttributes({valid:0})
+			.then(function(article){
+				res.json(article);
+			})
+			.catch(function(error){
+				console.info('Error @article delete:', error);
+				res.json({
+					success: false,
+					error: error 
+				});
+			});
+		})
+		.catch(function(error){
+			console.info('Error @article delete:', error);
+			res.json({
+				success: false,
+				error: error 
+			});
+		});
+
+	}else {
+		res.json(result);
+	}
+});
 
 module.exports = router;

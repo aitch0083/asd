@@ -21,11 +21,62 @@ var front_datatable_columns = [
 ];
 
 var article_conditions  = {};
-var category_conditions = {};
+var category_conditions = {valid: 1};
 var user_conditions     = {};
 
 Category.belongsTo(User, {foreignKey:'user_id', as:'User'});
 Category.belongsTo(Category, {foreignKey:'parent_id', as:'Parent'});
+
+router.get('/get_list', function(req, res, next){
+	var query = req.query.q;
+	var cid   = req.query.id;
+	
+	var result = {
+		incomplete_results: false,
+		total_count: 0,
+		items: []
+	};
+
+	var signed_user = req.session.user;
+
+	if(!signed_user && !config.debug){
+		
+		res.json(result);
+
+		return false;
+	}
+
+	if(cid){
+		Category.findOne({where: {id: cid}}).then(function(record){
+			
+			if(record){
+				res.json(record);
+			} else {
+				res.json({
+					id: null,
+					name: null,
+					text: null
+				});
+			}
+		});
+
+		return false;
+	}
+	
+	Category.findAndCountAll({ where: { valid: 1 } })
+			.then(function(results){
+				if(!results){
+					res.json(result);
+				} else {
+					result['incomplete_results'] = true;
+					result['total_count'] = results.count;
+					result['items'] = results.rows;
+
+					res.json(result);
+				}
+			});	
+
+});
 
 router.post('/index', function(req, res, next){
 

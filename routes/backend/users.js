@@ -24,10 +24,64 @@ var front_datatable_columns = [
 	'modified'
 ];
 
+router.get('/get_list', function(req, res, next){
+	var query = req.query.q;
+	var uid   = req.query.id;
+
+	// console.info('uid:', uid);
+	
+	var result = {
+		incomplete_results: false,
+		total_count: 0,
+		items: []
+	};
+
+	var signed_user = req.session.user;
+
+	if(!signed_user && !config.debug){
+		
+		res.json(result);
+
+		return false;
+	}
+
+	if(uid){
+		User.findOne({where: {id: uid}}).then(function(record){
+			
+			if(record){
+				res.json(record);
+			} else {
+				res.json({
+					id: null,
+					name: null,
+					text: null
+				});
+			}
+		});
+
+		return false;
+	}
+	
+	User.findAndCountAll({ where: { valid: 1 } })
+		.then(function(results){
+			if(!results){
+				res.json(result);
+			} else {
+				result['incomplete_results'] = true;
+				result['total_count'] = results.count;
+				result['items'] = results.rows;
+
+				res.json(result);
+			}
+		});	
+
+});
+
 router.post('/login', function(req, res, next){
 
 	var username = req.body.username;
 	var password = req.body.password;
+	
 	var result   = {
 		success: false,
 		message: "message.login_failed"

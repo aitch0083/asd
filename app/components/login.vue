@@ -120,7 +120,7 @@ let component = {
 			tasks: [],
 			notifications: [],
 			title: component.name,
-			time: this.$moment.format('YYYY MMMM DD, hh:mm:ss')
+			time: this.$moment('YYYY MMMM DD, hh:mm:ss')
 		}
 	},//eo data
 	beforeMount() {
@@ -130,7 +130,7 @@ let component = {
 
 	},//eo beforeMount
 	mounted() {
-		
+
 		$(window).trigger('resize');
 
 	},//eo mounted

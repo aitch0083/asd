@@ -7,6 +7,8 @@ import BannerList from './components/banner.list.vue';
 import CategoryList from './components/category.list.vue';
 import UserList from './components/user.list.vue';
 
+import ArticleEditor from './components/article.editor.vue';
+
 let router = new VueRouter({
 	suppressTransitionError: false,
 	routes: [
@@ -16,6 +18,9 @@ let router = new VueRouter({
 		{ path: '/app/banners', component: BannerList },
 		{ path: '/app/categories', component: CategoryList },
 		{ path: '/app/users', component: UserList },
+
+		{ path: '/app/add_article', component: ArticleEditor },
+		{ path: '/app/edit_article/:id', component: ArticleEditor },
 	]
 });
 
