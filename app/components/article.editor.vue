@@ -152,6 +152,12 @@ import AdminHeader from './admin.header.vue';
 import AdminSideMenu from './admin.sidemenu.vue';
 import Modal from './modal.vue';
 import toastr from '../../libs/toastr';
+import sanitizeHtml from 'sanitize-html';
+
+let _newp = (str) => {
+	let result = sanitizeHtml(str.replace(/(?:\r\n|\r|\n)/g, '<br/>'), {allowedTags:['p', 'br'], allowedAttributes:[]});
+	return result;
+};
 
 let init_author_selection = (app) => {
 	
@@ -237,7 +243,9 @@ let init_category_selection = (app) => {
 		},//eo ajax
 		initSelection(element, callback){
 
-			let id = element.data('category-id');
+			let id = element.data('category-id') || element.val();
+
+			id = id ? id : app.form.category_id;
 
 			if(id === undefined){
 				return ;
@@ -262,7 +270,8 @@ let init_category_selection = (app) => {
 			return record.name || record.title;
 		}
 	}).on('change', (event) => {
-		let category_id = $('#inputCategory').select2('val');
+		let $control         = $('#inputCategory');
+		let category_id      = $control.select2('val') || $control.data('category-id');
 		app.form.category_id = category_id;
 	});
 };
@@ -275,6 +284,14 @@ let component = {
 		AdminHeader,
 		AdminSideMenu,
 		Modal
+	},
+
+	watch: {
+		'$route'(to, from) {
+			if(from.path !== to.path){ //re-initialise the components if the paths are different
+				component.mounted.apply(this);
+			}
+		}
 	},
 
 	methods: {
@@ -313,7 +330,7 @@ let component = {
 					}
 
 				}, (error) => {
-					console.info('error@saving article:', error);
+					console.error('error@saving article:', error);
 					toastr(this.$t("message.unable_to_save"), this.$t("message.error"), 'error');
 				});
 			}
@@ -648,8 +665,18 @@ let component = {
 			app.form.start_time = event.target.value
 		});
 
-		init_author_selection(app);
-		init_category_selection(app);
+		
+		
+
+		app.bus.$on('set.form.user_id', (user_id) => {
+			$('#inputAuthor').data('user-id', user_id).trigger('change');
+			init_author_selection(app);
+		});
+
+		app.bus.$on('set.form.category_id', (category_id) => {
+			$('#inputCategory').data('category-id', category_id).trigger('change');
+			init_category_selection(app);
+		});
 
 		if(id !== undefined){//edit mode
 
@@ -684,8 +711,11 @@ let component = {
 					app.form = Object.assign({}, app.form, result.data.record);
 
 					app.$refs['datum-form'].reset();
+
+					$editor.summernote('code', app.form.content);
 					
 					app.bus.$emit('set.form.user_id', app.form.user_id);
+					app.bus.$emit('set.form.category_id', app.form.category_id);
 
 				}else{
 					toastr(result.message, this.$t("message.error"), 'error');
@@ -697,14 +727,7 @@ let component = {
 				toastr(error.statusText, this.$t("message.error"), 'error');
 			});
 		}
-
-		app.bus.$on('set.form.user_id', (user_id) => {
-			$('#inputAuthor').data('user-id', user_id).trigger('change');
-		});
-
-		app.bus.$on('set.form.category_id', (category_id) => {
-			$('#inputCategory').data('category-id', category_id).trigger('change');
-		});
+		
 	},
 
 	data() {

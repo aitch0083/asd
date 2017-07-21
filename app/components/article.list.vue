@@ -112,8 +112,9 @@ let component = {
 		        }
 		    }
 		}).on("loaded.rs.jquery.bootgrid", () => {
-		    datatable.find(".command-delete").on("click", function(e) {
+		    datatable.find(".command-delete").on("click", (e) => {
 		    	let id = $(this).data("row-id");
+		    	
 		    	if(confirm(app.$t("message.are_you_sure"))){
 		    		app.$http.delete('/api/articles', {body: {id: id}}).then((result) => {
 
