@@ -64,6 +64,8 @@ let component = {
 		$('body').addClass('hold-transition skin-blue sidebar-mini');
 		$('#app').addClass('wrapper');
 
+		user = JSON.parse(user);
+
 		if(!user){
 			toastr(this.$t('message.user_invalid'), this.$t('message.error'), 'error');
 			this.$router.push('/');
@@ -121,7 +123,7 @@ let component = {
 				} else {
 					id = $this.parent('button').data("row-id");
 				}
-		    	
+
 		    	if(confirm(app.$t("message.are_you_sure"))){
 		    		app.$http.delete('/api/articles', {body: {id: id}}).then((result) => {
 
