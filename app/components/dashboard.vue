@@ -27,7 +27,7 @@
 
 			    	<div class="col-md-3 col-sm-6 col-xs-12">
 						<div class="info-box">
-							<span class="info-box-icon bg-aqua"><i class="fa fa-file-text"></i></span>
+							<span class="info-box-icon bg-red"><i class="fa fa-file-text"></i></span>
 
 							<div class="info-box-content">
 								<span class="info-box-text">{{$t("message.article_list")}}</span>
@@ -40,7 +40,20 @@
 
 			        <div class="col-md-3 col-sm-6 col-xs-12">
 						<div class="info-box">
-							<span class="info-box-icon bg-green"><i class="fa fa-tree"></i></span>
+							<span class="info-box-icon bg-green"><i class="fa fa-money"></i></span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">{{$t("message.banner_list")}}</span>
+								<span class="info-box-number">{{banner_count}}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+			        </div><!-- EO article info box -->
+
+			        <div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="info-box">
+							<span class="info-box-icon bg-aqua"><i class="fa fa-tree"></i></span>
 
 							<div class="info-box-content">
 								<span class="info-box-text">{{$t("message.category_list")}}</span>
@@ -53,24 +66,11 @@
 
 			        <div class="col-md-3 col-sm-6 col-xs-12">
 						<div class="info-box">
-							<span class="info-box-icon bg-yellow"><i class="fa fa-user"></i></span>
+							<span class="info-box-icon bg-teal"><i class="fa fa-user"></i></span>
 
 							<div class="info-box-content">
 								<span class="info-box-text">{{$t("message.user_list")}}</span>
 								<span class="info-box-number">{{user_count}}</span>
-							</div>
-							<!-- /.info-box-content -->
-						</div>
-						<!-- /.info-box -->
-			        </div><!-- EO article info box -->
-
-			        <div class="col-md-3 col-sm-6 col-xs-12">
-						<div class="info-box">
-							<span class="info-box-icon bg-red"><i class="fa fa-line-chart"></i></span>
-
-							<div class="info-box-content">
-								<span class="info-box-text">{{$t("message.page_view")}}</span>
-								<span class="info-box-number">{{page_view}}</span>
 							</div>
 							<!-- /.info-box-content -->
 						</div>
@@ -118,6 +118,25 @@ let component = {
 	mounted() {
 		//trigger the resize event to adopt the dimension of the viewport
 		$(window).trigger('resize');
+
+		this.$http.get('/api/get_statistics')
+		.then((result) => {
+
+			if(result.status === 200 && result.data.success){
+
+				this.article_count  = result.data.article_count;
+				this.category_count = result.data.category_count;
+				this.user_count     = result.data.user_count;
+				this.banner_count   = result.data.banner_count;
+
+			} else {
+				toastr(this.$t("message.unable_to_fetch_statistics"), this.$t("message.error"), 'error');
+			}
+
+		}, (errot) => {
+			console.error('/api/get_statistics', error);
+			toastr(error.statusText, this.$t("message.error"), 'error');
+		});
 	},
 
 	data() {
@@ -127,6 +146,7 @@ let component = {
 			article_count: 0,
 			category_count: 0,
 			user_count: 0,
+			banner_count: 0,
 			page_view: 0,
 			messages:[],
 			notifications:[],

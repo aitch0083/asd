@@ -107,6 +107,7 @@ module.exports = {
 			are_you_sure: 'Are you sure?',
 			record_deleted: 'Record deleted',
 			upload_thumbnail: 'Upload Thumbnail',
+			unable_to_fetch_statistics: 'Unable to read the statistics',
 
 			save: 'Save',
 			close: 'Close',
