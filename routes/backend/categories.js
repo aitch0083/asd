@@ -192,4 +192,264 @@ router.post('/index', function(req, res, next){
 	
 });//eo /index
 
+router.post('/', function(req, res, next) {
+	var result = validator(req, res);
+
+	if(result.success){
+
+		var record    = req.body;
+		var title     = _.trim(_.escape(record.title));
+		var desc      = _.trim(_.escape(record.description));
+		var id        = record.id;
+		var level     = record.level;
+		var parent_id = record.parent_id;
+		var user_id   = record.user_id;
+
+		var to_save = {
+			title:       title,
+			description: desc,
+			level:       level,
+			parent_id:   parent_id,
+			user_id:     user_id
+		};
+
+
+		if(_.trim(_.escape(title)) === ''){
+			res.json({
+				result: false,
+				message: 'Title cannot be null'
+			});
+		}
+
+		if(!id){//create
+			Category.find({where:{title:title, valid: 1}})
+			.then(function(category){
+				if(category){
+					res.json({
+						success: false,
+						message: _.template('Category name <%=title%> exists')({title:title})
+					});
+				} else {
+					if(parent_id){
+
+						Category.find({where:{id:parent_id}}).then(function(parent_category){
+
+							if(!parent_category){
+								res.json({
+									success: false,
+									message: 'Invalid Parent Category'
+								});
+								return false;
+							}
+
+							to_save['level'] = 	parent_category.level + 1;
+							
+							Category.create(to_save)
+							.then(function(category){
+								res.json({
+									success: true,
+									message: 'Category created',
+									category: category
+								});
+								return true;
+							})
+							.catch(function(error){
+								res.json({
+									success: false,
+									error: error,
+									message: 'Unable to create category'
+								});
+								return false;
+							});		
+
+						});
+
+					} else {
+
+						Category.create(to_save)
+						.then(function(category){
+							res.json({
+								success: true,
+								message: 'Category created',
+								category: category
+							});
+						})
+						.catch(function(error){
+							res.json({
+								success: false,
+								error: error,
+								message: 'Unable to create category'
+							});
+						});
+
+					}
+				}
+			});
+		} else { //update
+			Category.find({where:{id:id, valid: 1}})
+			.then(function(category){
+				if(!category){
+					res.json({
+						success: false,
+						message: _.template('Category name <%=title%> cannot be updated')({title:title})
+					});
+				} else {
+
+					to_save.parent_id = category.parent_id;
+					to_save.level     = category.level;
+
+					if(parseInt(parent_id) === parseInt(id)){
+						res.json({
+							success: false,
+							message: 'Cannot assign itself as the parent'
+						});
+						return false;
+					}
+
+					if(parent_id){
+
+						Category.find({where:{id:parent_id}}).then(function(parent_category){
+
+							if(!parent_category){
+								res.json({
+									success: false,
+									message: 'Invalid Parent Category'
+								});
+								return false;
+							}
+
+							to_save['level'] = 	parent_category.level + 1;
+							
+							category.updateAttributes(to_save)
+							.then(function(category){
+								res.json({
+									success: true,
+									message: 'Category created',
+									category: to_save
+								});
+								return true;
+							})
+							.catch(function(error){
+								res.json({
+									success: false,
+									error: error,
+									message: 'Unable to create category'
+								});
+								return false;
+							});		
+
+						});
+
+					} else {
+
+						category.updateAttributes(to_save)
+						.then(function(category){
+							res.json({
+								success: true,
+								message: 'Category updated',
+								category: category
+							});
+							return true;
+						})
+						.catch(function(error){
+							res.json({
+								success: false,
+								error: error,
+								message: 'Unable to update category'
+							});
+							return false;
+						});
+
+					}
+				}
+			});
+		}
+
+	} else {
+		res.json(result);
+	}
+});
+
+router.delete('/', function(req, res, next) {
+	var result = validator(req, res);
+
+	if(result.success){
+
+		var record = req.body;
+		var id     = record.id;
+
+		Category.find({where: {id:id}})
+		.then(function(category){
+
+			category.updateAttributes({valid:0})
+			.then(function(category){
+				res.json(category);
+			})
+			.catch(function(error){
+
+				console.error('error:', error);
+
+				res.json({
+					success: false,
+					error: error 
+				});
+			});
+		})
+		.catch(function(error){
+
+			console.error('error:', error);
+
+			res.json({
+				success: false,
+				error: error 
+			});
+		});
+
+	} else {
+		res.json(result);
+	}
+});
+
+router.get('/:id', function(req, res, next) {
+	var result = validator(req, res);
+
+	if(result.success){
+
+		var id = req.params.id;
+
+		if(!id){
+			throw new Error('Invalid banner ID');
+		} 
+
+		Promise.join(
+
+			Category.findOne({where: {id: id}, valid: 1})
+
+		).spread(function(category){
+			
+			if(!category){
+				throw new Error('Invalid category');
+			}
+
+			var result = category;
+
+			res.json({
+				success: true,
+				record: result
+			});
+		})
+		.catch(function(error){
+			console.error(error);
+
+			res.json({
+				success: false,
+				error: error 
+			});
+		});
+
+	} else {
+		res.json(result);
+	}
+});
+
 module.exports = router;

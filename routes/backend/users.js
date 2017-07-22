@@ -242,7 +242,7 @@ router.post('/', function(req, res, next) {
 			});
 		}
 
-		User.find({where:{email:email}})
+		User.find({where:{email:email, valid: 1}})
 		.then(function(user){
 			if(user){
 				res.json({
@@ -349,7 +349,6 @@ router.get('/:id', function(req, res, next) {
 		res.json(result);
 	}
 });
-
 
 router.delete('/', function(req, res, next) {
 	var result = validator(req, res);

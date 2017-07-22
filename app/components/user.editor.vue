@@ -108,6 +108,11 @@ let _newp = (str) => {
 
 let $editor = null;
 
+let clean_form = {
+	type: 'usual',
+	sex: 'unknown'
+};
+
 let component = {
 
 	components: {
@@ -233,23 +238,22 @@ let component = {
 			});
 
 		} else {//add mode
-			
+			app.form = clean_form;
+			app.$refs['datum-form'].reset();
 		}
 		
+		$(window).trigger('resize');
 	},
 
 	data() {
 
 		return {
 			user: null,
-			form: {
-				type: 'usual',
-				sex: 'unknown'
-			},
+			form: clean_form,
 			placeholders: {
 			},
 			bus: new Vue(),
-			activeItem: 'add_banner',
+			activeItem: 'add_user',
 			messages:[],
 			notifications:[],
 			tasks:[],

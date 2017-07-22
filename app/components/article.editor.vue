@@ -727,8 +727,10 @@ let component = {
 				toastr(error.statusText, this.$t("message.error"), 'error');
 			});
 		}
+
+		$(window).trigger('resize');
 		
-	},
+	},//eo mount
 
 	data() {
 

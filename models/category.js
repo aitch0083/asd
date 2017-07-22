@@ -6,7 +6,7 @@ var Category = sequelize.define('categories', {
 	//For display: 
 	id:            { type: SZ.BIGINT(20).UNSIGNED,  allowNull: false, autoIncrement: true, primaryKey: true, field: 'id'},
 	title:         { type: SZ.STRING(35),           allowNull: false, field: 'title'},
-	level:         { type: SZ.STRING(40), 		    allowNull: false, field: 'level'},
+	level:         { type: SZ.STRING(40), 		    allowNull: false, field: 'level', defaultValue: 1},
 	description:   { type: SZ.STRING(40), 		    allowNull: false, field: 'description'},
 	dispaly:       { type: SZ.BOOLEAN,    		    allowNull: false, defaultValue: 1, field: 'display'},
 	admin:         { type: SZ.BOOLEAN,    		    allowNull: false, defaultValue: 0, field: 'for_admin'},
@@ -17,7 +17,7 @@ var Category = sequelize.define('categories', {
 	modified:      { type: SZ.DATE, 			    allowNull: true,  field: 'modified'},
 
 	//Not for display:
-	parent_id: { type: SZ.BIGINT(20).UNSIGNED, allowNull: false, defaultValue: 0},
+	parent_id: { type: SZ.BIGINT(20).UNSIGNED, allowNull: true, defaultValue: null},
 	valid: { type: SZ.BOOLEAN, allowNull: false, defaultValue: 1},
 	
 }, {

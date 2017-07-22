@@ -111,6 +111,46 @@ let component = {
 		        	return _t;
 		        }
 		    }
+		}).on("loaded.rs.jquery.bootgrid", () => {
+
+			datatable.find(".command-edit").on("click", (e) => {
+				let $this = $(e.target);
+				let id    = null;
+
+				if($this.get(0).nodeName === 'BUTTON'){
+					id = $this.data("row-id");
+				} else {
+					id = $this.parent('button').data("row-id");
+				}
+
+		    	app.$router.push('/app/edit_category/' + id);
+		    });
+		    
+		    datatable.find(".command-delete").on("click", (e) => {
+		    	let $this = $(e.target);
+				let id    = null;
+
+				if($this.get(0).nodeName === 'BUTTON'){
+					id = $this.data("row-id");
+				} else {
+					id = $this.parent('button').data("row-id");
+				}
+		    	
+		    	if(confirm(app.$t("message.are_you_sure"))){
+		    		app.$http.delete('/api/categories', {body: {id: id}}).then((result) => {
+
+		    			if(result.status === 200 && result.data.id){
+		    				toastr(result.message, app.$t("message.record_deleted"), 'success');
+		    				datatable.bootgrid('reload');
+						}else{
+							toastr(result.message, app.$t("message.error"), 'error');
+						}
+
+		    		}, (error) => {
+		    			toastr(error.statusText, app.$t("message.error"), 'error');
+		    		});
+		    	};
+		    });//eo command-delete
 		});
 	},
 
