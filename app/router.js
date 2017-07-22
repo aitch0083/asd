@@ -9,6 +9,7 @@ import UserList from './components/user.list.vue';
 
 import ArticleEditor from './components/article.editor.vue';
 import BannerEditor from './components/banner.editor.vue';
+import UserEditor from './components/user.editor.vue';
 
 let router = new VueRouter({
 	suppressTransitionError: false,
@@ -25,6 +26,9 @@ let router = new VueRouter({
 
 		{ path: '/app/add_banner', component: BannerEditor },
 		{ path: '/app/edit_banner/:id', component: BannerEditor },
+
+		{ path: '/app/add_user', component: UserEditor },
+		{ path: '/app/edit_user/:id', component: UserEditor },
 	]
 });
 

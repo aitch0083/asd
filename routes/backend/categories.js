@@ -10,6 +10,26 @@ var Promise = SZ.Promise;
 var now     = moment('YYYY-MM-DD HH:mm:ss');
 var router  = express.Router();
 
+var validator = function(req, res){
+
+	var signed_user = req.session.user;
+
+	if(!signed_user && !config.debug){
+		
+		return {
+			success: false,
+			message: "message.login_required"
+		};
+
+	} else {
+		return {
+			user_id: config.debug ? 1 : signed_user.id,
+			success: true,
+			message: "message.login_required"
+		};
+	}
+};
+
 var front_datatable_columns = [
 	'id',
 	'title',

@@ -10,12 +10,32 @@ var Promise = SZ.Promise;
 var now     = moment('YYYY-MM-DD HH:mm:ss');
 var router  = express.Router();
 
-var user_conditions = {};
+var user_conditions = {valid: 1};
+
+var validator = function(req, res){
+
+	var signed_user = req.session.user;
+
+	if(!signed_user && !config.debug){
+		
+		return {
+			success: false,
+			message: "message.login_required"
+		};
+
+	} else {
+		return {
+			user_id: config.debug ? 1 : signed_user.id,
+			success: true,
+			message: "message.login_required"
+		};
+	}
+};
 
 var front_datatable_columns = [
 	'id',
 	'name',
-	'display_name',
+	'username',
 	'email',
 	'about_me',
 	'type',
@@ -206,6 +226,164 @@ router.post('/index', function(req, res, next){
 	}); //eo Promise
 	
 });//eo /index
+
+router.post('/', function(req, res, next) {
+	var result = validator(req, res);
+
+	if(result.success){
+
+		var user_record = req.body;
+		var email       = user_record.email;
+
+		if(_.trim(_.escape(email)) === ''){
+			res.json({
+				result: false,
+				message: 'Email cannot be null'
+			});
+		}
+
+		User.find({where:{email:email}})
+		.then(function(user){
+			if(user){
+				res.json({
+					success: false,
+					message: _.template('Email <%=email%> exists')({email:email})
+				});
+			} else {
+
+				user_record['username'] = email;
+
+				User.create(user_record).then(function(user){
+					res.json(user);
+				}).catch(function(error){
+					res.json({
+						success: false,
+						error: error 
+					});
+				});
+			}
+		})
+		.catch(function(error){
+			res.json({
+				success: false,
+				error: error 
+			});
+		});
+
+	}else {
+		res.json(result);
+	}
+});
+
+router.put('/', function(req, res, next) {
+	var result = validator(req, res);
+
+	if(result.success){
+
+		var user_record = req.body;
+		var id          = user_record.id;
+
+		User.find({where:{id:id}})
+		.then(function(user){
+
+			user.updateAttributes(user_record).then(function(user){
+				res.json(user_record);
+			})
+			.catch(function(error){
+				res.json({
+					success: false,
+					error: error 
+				});
+			});
+		})
+		.catch(function(error){
+			res.json({
+				success: false,
+				error: error 
+			});
+		});
+
+	}else {
+		res.json(result);
+	}
+});
+
+router.get('/:id', function(req, res, next) {
+	var result = validator(req, res);
+
+	if(result.success){
+
+		var id = req.params.id;
+
+		if(!id){
+			throw new Error('Invalid banner ID');
+		} 
+
+		Promise.join(
+
+			User.findOne({where: {id: id}, valid: 1})
+
+		).spread(function(user){
+			
+			if(!user){
+				throw new Error('Invalid user');
+			}
+
+			var result = user;
+
+			res.json({
+				success: true,
+				record: result
+			});
+		})
+		.catch(function(error){
+			console.error(error);
+
+			res.json({
+				success: false,
+				error: error 
+			});
+		});
+
+	} else {
+		res.json(result);
+	}
+});
+
+
+router.delete('/', function(req, res, next) {
+	var result = validator(req, res);
+
+	if(result.success){
+
+		var user_record = req.body;
+		var id          = user_record.id;
+
+		User.find({where:{id:id}})
+		.then(function(user){
+
+			user.updateAttributes({valid:0})
+			.then(function(user){
+				res.json(user_record);
+			})
+			.catch(function(error){
+				res.json({
+					success: false,
+					error: error 
+				});
+			});
+		})
+		.catch(function(error){
+			res.json({
+				success: false,
+				error: error 
+			});
+		});
+
+	}else {
+		res.json(result);
+	}
+});
 
 module.exports = router;
 

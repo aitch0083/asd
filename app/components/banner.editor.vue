@@ -1,5 +1,5 @@
 <template>
-	<div class="article_editor">
+	<div class="banner_editor">
 		
 		<AdminHeader 
 			:messages="messages" 
@@ -247,7 +247,7 @@ let component = {
 					}
 
 				}, (error) => {
-					console.error('error@saving article:', error);
+					console.error('error@saving banner:', error);
 					toastr(this.$t("message.unable_to_save"), this.$t("message.error"), 'error');
 				});
 			}
@@ -414,7 +414,7 @@ let component = {
 				}
 
 			}, (error) => {
-				console.error('/api/articles/new', error);
+				console.error('/api/banners/new', error);
 				toastr(error.statusText, this.$t("message.error"), 'error');
 			});
 
@@ -436,7 +436,7 @@ let component = {
 				}
 
 			}, (error) => {
-				console.error('/api/articles/new', error);
+				console.error('/api/banners/new', error);
 				toastr(error.statusText, this.$t("message.error"), 'error');
 			});
 		}
