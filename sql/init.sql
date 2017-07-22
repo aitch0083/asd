@@ -140,3 +140,13 @@ CREATE TABLE IF NOT EXISTS `images` (
   UNIQUE     KEY `images_path` (`path`),
   KEY        `model_key` (`model`,`model_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `banner_displays` (
+  `id`          bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `banner_id`   int(10) unsigned NOT NULL,
+  `category_id` smallint(5) unsigned NOT NULL,
+  `created`     datetime NOT NULL,
+  `modified`    datetime DEFAULT NULL,
+  UNIQUE        KEY `id` (`id`),
+  KEY           `banner_id` (`banner_id`,`category_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
