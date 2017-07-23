@@ -136,6 +136,7 @@ let component = {
 
 			} else {
 				toastr(this.$t("message.unable_to_fetch_statistics"), this.$t("message.error"), 'error');
+				this.$router.push('/app/dashboard');
 			}
 
 		}, (errot) => {
