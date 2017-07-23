@@ -1,7 +1,6 @@
 <template>
 	<div class="login-module">
 		
-		
 		<div class="box box-info login-form">
 		    <div class="box-header with-border">
 		        <h3 class="box-title">{{$t("message.login_form_title")}}</h3>
@@ -140,12 +139,20 @@ export default component;
 </script>
 
 <style>
+body{
+	background-image: url(/images/wallpaper.jpg);
+	background-repeat:no-repeat;
+	background-position:center;
+	background-attachment: fixed;
+	background-size: cover;
+}
 .btn{
 	margin-right: 0.5rem;
 }
 .login-form{
-	width: 27%;
-	height: 20%;
+	max-width: 450px;
+	width: 90%;
+	height: 25%;
 	margin: 7% auto;
 }
 </style>
