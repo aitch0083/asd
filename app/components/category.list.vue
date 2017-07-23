@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import AdminHeader from './admin.header.vue';
 import AdminSideMenu from './admin.sidemenu.vue';
 import toastr from '../../libs/toastr';
@@ -63,7 +64,9 @@ let component = {
 		$('body').addClass('hold-transition skin-blue sidebar-mini');
 		$('#app').addClass('wrapper');
 
-		user = JSON.parse(user);
+		if(_.isString(user)){
+			user = JSON.parse(user);
+		}
 
 		if(!user){
 			toastr(this.$t('message.user_invalid'), this.$t('message.error'), 'error');

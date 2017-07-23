@@ -206,7 +206,9 @@ let component = {
 		$('body').addClass('hold-transition skin-blue sidebar-mini');
 		$('#app').addClass('wrapper');
 
-		user = JSON.parse(user);
+		if(_.isString(user)){
+			user = JSON.parse(user);
+		}
 
 		// console.info('user: ', user);
 
