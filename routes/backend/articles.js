@@ -279,7 +279,7 @@ router.put('/', function(req, res, next) {
 			article.updateAttributes(record).then(function(article){
 
 				//clear the cache if any
-				var cache_file_name = (config.frontend_location !== undefined ? config.frontend_location : '') + '/public/articles/read' + id + '.html';
+				var cache_file_name = (config.frontend_location !== undefined ? config.frontend_location : '') + '/public/articles/read/' + id + '.html';
 
 				if(fs.existsSync(cache_file_name)){
 					fs.unlink(cache_file_name);
