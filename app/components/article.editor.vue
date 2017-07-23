@@ -608,6 +608,8 @@ let component = {
 						formData.append('file[]', file);
 					});
 
+					// console.info('app.form.watermark:', app.form.watermark);
+
 					formData.append('record_id', app.form.id);
 					formData.append('model_name', 'Article');
 					formData.append('watermark', app.form.watermark ? 'yes' : 'no')
@@ -653,7 +655,7 @@ let component = {
 			let name    = event.target.name;
 			let checked = event.target.checked;
 
-			if(name === 'at_top' || name === 'approved'){
+			if(name === 'at_top' || name === 'approved' || name === 'watermark'){
 				app.form[name] = checked ? 1 : 0;
 			}
 		});
