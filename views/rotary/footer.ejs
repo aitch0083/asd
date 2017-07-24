@@ -1,0 +1,161 @@
+
+<!-- Footer -->
+<footer class="footer g-pt-40 g-pb-20">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 g-pb-20">
+                <p>&copy; <%= moment().format('YYYY') %> All right reserved.</p>
+            </div>
+
+            <div class="col-sm-6 text-right g-pb-20">
+                <ul class="list-inline g-margin-0">
+                    <li>
+                        <a href="#" class="footer__social">
+                            <i class="icon-bg-u icon-sm fa fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__social">
+                            <i class="icon-bg-u icon-sm fa fa-pinterest-p"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__social">
+                            <i class="icon-bg-u icon-sm fa fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__social">
+                            <i class="icon-bg-u icon-sm fa fa-linkedin"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- /Footer -->
+
+<!-- JS Global Compulsory -->
+<script src="/rotary/root_assets/plugins/jquery/jquery.min.js"></script>
+<script src="/rotary/root_assets/plugins/jquery/jquery-migrate.min.js"></script>
+<script src="/rotary/root_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- JS Implementing Plugins -->
+<script src="/rotary/root_assets/plugins/smoothScroll.js"></script>
+<script src="/rotary/root_assets/plugins/jquery.easing.min.js"></script>
+<script src="/rotary/root_assets/plugins/sky-forms-pro/skyforms/js/jquery.form.min.js"></script>
+<script src="/rotary/root_assets/plugins/sky-forms-pro/skyforms/js/jquery.validate.min.js"></script>
+<script src="/rotary/root_assets/plugins/slick/slick.min.js"></script>
+<script src="/rotary/root_assets/plugins/circles-master/circles.min.js"></script>
+<script src="/rotary/root_assets/plugins/jquery-appear.js"></script>
+<script src="/rotary/root_assets/plugins/jquery.easypin/dist/jquery.easypin.min.js"></script>
+
+<!-- JS Page Level-->
+<script src="/rotary/root_assets/js/one.app.js"></script>
+<script src="/rotary/assets/js/plugins/promo.js"></script>
+<script src="/rotary/assets/js/plugins/projects.js"></script>
+<script src="/rotary/assets/js/plugins/circles-master.js"></script>
+<script src="/rotary/assets/js/plugins/progress-bar.js"></script>
+<script src="/rotary/assets/js/plugins/posts.js"></script>
+<script src="/rotary/assets/js/plugins/success-stories.js"></script>
+<script src="/rotary/assets/js/plugins/helping.js"></script>
+<script src="/rotary/assets/js/plugins/map-pin.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+
+<script>
+
+var $page_indicator = null;
+var cached_path     = {};
+var layout          = $('#layout_ipt').val();
+
+var loadnext = _.throttle(function(){
+    
+    $page_indicator = $('.page-indicator:last');
+    
+    if($page_indicator.length){
+        var src = $page_indicator.data('src');
+
+        if(src){
+
+            if(cached_path[src] !== undefined){
+                return;
+            }
+
+            $.get(src, {layout:layout}, function(result){
+                var $result = $(result);
+                if(src.indexOf('/index/0') > 0){
+                    $mgrid.append($result);
+                } else {
+                    $('#playpoint').append($result);
+                }
+
+                // $('.img-lazy-load').lazyload();
+            });
+
+            cached_path[src] = 1;
+        }
+    }//eo $page_indicator if
+
+}, 800);
+
+$(function() {
+
+    var $window         = $(window);
+    var $cate_container = $('#cate-container');
+    var $doc            = $(document);
+
+    App.init();
+
+    loadnext();
+
+    $window.resize(function(){
+        
+    }).scroll(function() {
+
+       var target_height = $cate_container.length ? $cate_container[0].scrollHeight : $doc.height();
+
+       if($window.scrollTop() + $window.height() > target_height - 320) {
+           loadnext();
+       }
+    });//eo scroll
+});
+</script>
+<!--[if lt IE 10]>
+    <script src="/rotary/root_assets/plugins/sky-forms-pro/skyforms/js/jquery.placeholder.min.js"></script>
+  <![endif]-->
+<!-- Code injected by live-server -->
+<script type="text/javascript">
+    // <![CDATA[  <-- For SVG support
+    // if ('WebSocket' in window) {
+    //     (function() {
+    //         function refreshCSS() {
+    //             var sheets = [].slice.call(document.getElementsByTagName("link"));
+    //             var head = document.getElementsByTagName("head")[0];
+    //             for (var i = 0; i < sheets.length; ++i) {
+    //                 var elem = sheets[i];
+    //                 head.removeChild(elem);
+    //                 var rel = elem.rel;
+    //                 if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+    //                     var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+    //                     elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+    //                 }
+    //                 head.appendChild(elem);
+    //             }
+    //         }
+    //         var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+    //         var address = protocol + window.location.host + window.location.pathname + '/ws';
+    //         var socket = new WebSocket(address);
+    //         socket.onmessage = function(msg) {
+    //             if (msg.data == 'reload') window.location.reload();
+    //             else if (msg.data == 'refreshcss') refreshCSS();
+    //         };
+    //         console.log('Live reload enabled.');
+    //     })();
+    // }
+    // ]]>
+</script>
+</body>
+
+</html>

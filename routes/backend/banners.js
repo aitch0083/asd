@@ -11,7 +11,7 @@ var fs            = require('fs');
 var cheerio       = require('cheerio');
 
 var Promise = SZ.Promise;
-var now     = moment('YYYY-MM-DD HH:mm:ss');
+var now     = moment().format('YYYY-MM-DD HH:mm:ss');
 var router  = express.Router();
 
 var front_datatable_columns = [

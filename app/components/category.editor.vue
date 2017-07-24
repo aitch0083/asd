@@ -44,6 +44,13 @@
 			            </div>
 
 			            <div class="form-group">
+			                <label for="inputUrl" class="col-sm-2 control-label">{{$t("message.url_field")}}</label>
+			                <div class="col-sm-10">
+			                    <input name="description" type="text" class="form-control" id="inputUrl" v-model="form.url" v-focus>
+			                </div>
+			            </div>
+
+			            <div class="form-group">
 			                <label for="inputCategory" class="col-sm-2 control-label">{{$t("message.parent_field")}}</label>
 			                <div class="col-sm-10">
 			                    <select name="parent_id" class="form-control" id="inputCategory">
@@ -76,6 +83,7 @@ import sanitizeHtml from 'sanitize-html';
 
 let clean_form = {
 	title: '',
+	url: '',
 	description: '',
 	parent_id: null,
 	level: 1

@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS  `categories` (
   `user_id`     bigint(20) unsigned NOT NULL COMMENT 'This fields refers to weee_admin_users'' `id`',
   `display`     tinyint(1) NOT NULL DEFAULT '1',
   `title`       varchar(30) NOT NULL,
+  `url`         varchar(255) DEFAULT NULL,
   `level`       smallint(5) unsigned NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `for_admin`   tinyint(1) NOT NULL DEFAULT '0',

@@ -12,7 +12,7 @@ var cheerio      = require('cheerio');
 var sanitizeHtml = require('sanitize-html');
 
 var Promise = SZ.Promise;
-var now     = moment('YYYY-MM-DD HH:mm:ss');
+var now     = moment().format('YYYY-MM-DD HH:mm:ss');
 var router  = express.Router();
 
 var front_datatable_columns = [
@@ -26,6 +26,7 @@ var front_datatable_columns = [
 	'modified'
 ];
 
+//GLOBAL conditions
 var article_conditions  = {valid: 1};
 var category_conditions = {};
 var user_conditions     = {};

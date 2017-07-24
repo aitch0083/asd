@@ -1,0 +1,128 @@
+<% include header %>
+
+<!-- Section "Map" -->
+<section class="g-pt-100 g-pb-100 g-bg-gray" id="events">
+    <div class="container">
+        <div class="g-heading-v13 text-center g-max-width--770 g-margin-side-auto g-mb-60">
+            <h2 class="g-mb-35"><%= article.get('title') %></h2>
+            <p>
+            	<a href="/categories/index/<%= article.Category.get('id') %>" style="">
+					<%= article.Category.get('title') %>
+				</a>
+            </p>
+
+            <div>
+            	<meta name="description" content="<%= article.get('abstraction'); %>">
+				<div class="entry-meta">
+					<span class="author">
+						BY <%= article.User.get('name'); %>  
+						@ <time datetime="<%= article.get('created'); %>">
+							<%- display_time(article.get('created')); %>					
+						  </time>				
+					</span>
+				</div>
+            </div>
+        </div>
+
+        <div class="map-with-pin" style="max-width: 800px; margin: auto;">
+            <%- article.get('content'); %>
+        </div>
+    </div>
+</section>
+<!-- /Section "Map" -->
+
+<% if( latest_articles !== undefined && latest_articles.length ) { //if-#2 %>
+		
+	<!-- Section "Projects" -->	
+	<section class="g-pt-100 g-pb-100 g-bg-gray" id="our-projects">
+
+		<div class="container">
+	        <div class="g-heading-v13 text-center g-max-width--770 g-margin-side-auto g-mb-60">
+	            <h2 class="g-mb-35">Latest <strong>Articles</strong></h2>
+	        </div>
+			
+			<div class="projects">
+				<% for(var idx in latest_articles) { //for-#2 %>
+
+					<% var article = latest_articles[idx]; %>
+					<div class="project-item">
+		                <div class="project-item__image">
+		                    <img src="<%= article.thumbnail %>" alt="">
+		                </div>
+		                <div class="project-item-content">
+		                    <h3 class="g-mb-15"><%= article.title; %></h3>
+		                    <p class="g-mb-25"><%= article.abstract; %>...</p>
+
+		                    <div class="project-item-content-bottom">
+		                        <div class="project-item-content-col1">
+		                        	<strong class="project-item__price">By</strong>
+		                            <div class="circle"><%= article.User.name; %></div>
+		                        </div>
+		                        <div class="project-item-content-col2">
+		                            <strong class="project-item__price">Created</strong>
+		                            <em class="project-item__time"><%= article.created.substr(0, 16); %></em>
+		                        </div>
+		                        <div class="project-item-content-col3">
+		                            <a class="btn-u btn-u-lg btn-u-upper" href="/articles/read/<%= article.id; %>">Learn more</a>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div><!-- eo project-item -->
+
+				<% } //eo for-#2 %>
+			</div>
+		</div>
+	
+	</section>
+	<!-- /Section "Projects" -->
+
+<% }//eo if-#2 %>
+
+<% if( same_cate_artciles !== undefined && same_cate_artciles.length ) { //if-#3 %>
+		
+	<!-- Section "Projects" -->	
+	<section class="g-pt-100 g-pb-100 g-bg-gray" id="our-projects">
+
+		<div class="container">
+	        <div class="g-heading-v13 text-center g-max-width--770 g-margin-side-auto g-mb-60">
+	            <h2 class="g-mb-35">Related <strong>Articles</strong></h2>
+	        </div>
+			
+			<div class="projects">
+				<% for(var idx in same_cate_artciles) { //for-#2 %>
+
+					<% var article = same_cate_artciles[idx]; %>
+					<div class="project-item">
+		                <div class="project-item__image">
+		                    <img src="<%= article.thumbnail %>" alt="">
+		                </div>
+		                <div class="project-item-content">
+		                    <h3 class="g-mb-15"><%= article.title; %></h3>
+		                    <p class="g-mb-25"><%= article.abstract; %>...</p>
+
+		                    <div class="project-item-content-bottom">
+		                        <div class="project-item-content-col1">
+		                        	<strong class="project-item__price">By</strong>
+		                            <div class="circle"><%= article.User.name; %></div>
+		                        </div>
+		                        <div class="project-item-content-col2">
+		                            <strong class="project-item__price">Created</strong>
+		                            <em class="project-item__time"><%= article.created.substr(0, 16); %></em>
+		                        </div>
+		                        <div class="project-item-content-col3">
+		                            <a class="btn-u btn-u-lg btn-u-upper" href="/articles/read/<%= article.id; %>">Learn more</a>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div><!-- eo project-item -->
+
+				<% } //eo for-#2 %>
+			</div>
+		</div>
+	
+	</section>
+	<!-- /Section "Projects" -->
+
+<% }//eo if-#3 %>
+
+<% include footer %>

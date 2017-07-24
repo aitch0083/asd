@@ -7,7 +7,7 @@ var User     = require('../../models/user');
 var Category = require('../../models/category');
 
 var Promise = SZ.Promise;
-var now     = moment('YYYY-MM-DD HH:mm:ss');
+var now     = moment().format('YYYY-MM-DD HH:mm:ss');
 var router  = express.Router();
 
 var validator = function(req, res){
@@ -203,6 +203,7 @@ router.post('/', function(req, res, next) {
 		var id        = record.id;
 		var level     = record.level;
 		var parent_id = record.parent_id;
+		var url       = record.url;
 		var user_id   = record.user_id;
 
 		var to_save = {
@@ -210,7 +211,8 @@ router.post('/', function(req, res, next) {
 			description: desc,
 			level:       level,
 			parent_id:   parent_id,
-			user_id:     user_id
+			user_id:     user_id,
+			url:         url
 		};
 
 

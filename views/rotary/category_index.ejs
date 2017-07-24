@@ -1,0 +1,49 @@
+<% include header %>
+
+<% if( cate_articles !== undefined && cate_articles.length ) { //if-#2 %>
+
+	<section class="g-pt-100 g-pb-100 text-center" id="your-help">
+	    <div class="container">
+	        <div class="g-heading-v13 text-center g-max-width--770 g-margin-side-auto g-mb-60">
+	            <h2 class="g-mb-35">
+	            	<a href="/categories/index/<%= category.get('id') %>" style="">
+						<%= category.get('title') %>
+					</a>
+	            </h2>
+	            <p><%= category.get('description') %></p>
+	        </div>
+
+	        <% if( show_page_anchor ) { %>
+				<span class="page-indicator hidden" data-src="/categories/index/<%= category.get('id') %>/<%= page %>"></span>
+			<% } %>
+
+			<div id="playpoint" class="small-up-1 medium-up-3 large-up-4">
+
+	        <% for(var idx in cate_articles) { //for-#2 %>
+
+	        	<% var article = cate_articles[idx]; %>
+	        		
+	            <div class="col-md-6" style="margin-bottom: 1rem;">
+	                <div class="infoblock-v1">
+	                    <div class="infoblock-v1-content infoblock-v1-content--left">
+	                        <h3 class="g-mb-25" style="max-height: 81px; overflow: hidden;"><%= article.title; %></h3>
+	                        <a class="btn-u btn-u-upper" href="/articles/read/<%= article.id %>">
+	                        	<div class="circle"><%= article.User.name; %></div>
+	                            <em class="project-item__time"><%= article.created.substr(0, 16); %></em>
+	                        </a>
+	                    </div>
+	                    <a href="/articles/read/<%= article.id %>" style="float: left; width: 100%;">
+	                    	<div class="infoblock-v1-image" style="background-image: url(<%= article.thumbnail %>); max-height: 300px;"></div>
+	                    <a/>
+	                </div>
+	            </div>
+	        <% } %>
+
+	    	</div>
+
+	    </div>
+	</section>
+
+<% }//eo if-#2 %>	
+
+<% include footer %>

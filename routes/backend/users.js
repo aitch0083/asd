@@ -7,7 +7,7 @@ var Banner  = require('../../models/banner');
 var User     = require('../../models/user');
 
 var Promise = SZ.Promise;
-var now     = moment('YYYY-MM-DD HH:mm:ss');
+var now     = moment().format('YYYY-MM-DD HH:mm:ss');
 var router  = express.Router();
 
 var user_conditions = {valid: 1};
