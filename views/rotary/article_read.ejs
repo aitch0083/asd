@@ -5,11 +5,13 @@
 .charity-header.one-page-header.navbar {
     background-color: #e7e7e7 !important;
 }
-
 .navbar-default {
     background-color: #f8f8f8;
     border-color: #e7e7e7;
     background-color: #e7e7e7 !important;
+}
+.map-with-pin img{
+	max-width: 100%;
 }
 </style>
 
@@ -37,7 +39,7 @@
             </div>
         </div>
 
-        <div class="map-with-pin" style="max-width: 800px; margin: auto; font-size: 15px;">
+        <div class="map-with-pin" style="max-width: 100%; margin: auto; font-size: 15px;">
             <%- article.get('content'); %>
         </div>
     </div>
