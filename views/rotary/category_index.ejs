@@ -1,5 +1,11 @@
 <% include header %>
 
+<style type="text/css">
+.charity-header.one-page-header.navbar {
+    background-color: #e7e7e7 !important;
+}
+</style>
+
 <% if( cate_articles !== undefined && cate_articles.length ) { //if-#2 %>
 
 	<section class="g-pt-100 g-pb-100 text-center" id="your-help">
@@ -10,7 +16,7 @@
 						<%= category.get('title') %>
 					</a>
 	            </h2>
-	            <p><%= category.get('description') %></p>
+	            <!-- <p><%= category.get('description') %></p> -->
 	        </div>
 
 	        <% if( show_page_anchor ) { %>

@@ -1,10 +1,10 @@
 /* Add here all your css styles (customizations) */
 .one-page-header.charity-header .navbar-nav > li > a {
     color: #fff;
-    font-size: 15px !important;
+    font-size: 12px !important;
     font-weight: bold;
     text-transform: uppercase;
-    padding: 10px 0 10px 5px !important;
+    padding: 10px 0 10px 10px !important;
 }
 
 .charity-header.one-page-header.top-nav-collapse {

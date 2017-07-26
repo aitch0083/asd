@@ -15,8 +15,8 @@
 			            <div class="promo-item-content">
 			                <h3><%= article.title; %></h3>
 			                <div class="g-mb-45">
-			                    <div class="money-type-1 g-mr-10 g-mb-10--4x"><em>Created</em> <strong><%= article.User.name; %></strong></div>
-			                    <div class="money-type-1"><em>By</em> <strong><%= article.created.substr(0, 16); %></strong></div>
+			                    <div class="money-type-1"><em>Created</em> <strong><%= article.created.substr(0, 16); %></strong></div>
+			                    <div class="money-type-1 g-mr-10 g-mb-10--4x"><em>By</em> <strong><%= article.User.name; %></strong></div>
 			                </div>
 			                <p class="g-color-white--dark g-mb-45"><%= article.abstract; %>...</p>
 			                <a class="btn-u btn-u-lg btn-u-upper" href="/articles/read/<%= article.id; %>">Read more</a>
