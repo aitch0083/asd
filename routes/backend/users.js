@@ -182,6 +182,15 @@ router.post('/index', function(req, res, next){
 		order = 'id desc';
 	}
 
+	if(searchPhrase){
+
+		user_conditions['$or']  = {};
+		
+		user_conditions['$or']['email']    = { '$like': '%' + searchPhrase + '%' };
+		user_conditions['$or']['username'] = { '$like': '%' + searchPhrase + '%' };
+		user_conditions['$or']['name']     = { '$like': '%' + searchPhrase + '%' };
+	}
+
 	var offset = (current - 1) * rowCount;
 
 	Promise.join(

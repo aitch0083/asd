@@ -92,6 +92,14 @@ router.post('/index', function(req, res, next){
 		order = 'User.name ' + sort_dir;
 	}
 
+	if(searchPhrase){
+
+		banner_conditions['$or']  = {};
+		
+		banner_conditions['$or']['title']       = { '$like': '%' + searchPhrase + '%' };
+		banner_conditions['$or']['description'] = { '$like': '%' + searchPhrase + '%' };
+	}
+
 	var offset = (current - 1) * rowCount;
 
 	Promise.join(

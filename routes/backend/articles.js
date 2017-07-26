@@ -146,6 +146,15 @@ router.post('/index', function(req, res, next){
 		order = 'User.name ' + sort_dir;
 	}
 
+	if(searchPhrase){
+
+		article_conditions['$or']  = {};
+		
+		article_conditions['$or']['title']      = { '$like': '%' + searchPhrase + '%' };
+		article_conditions['$or']['abstract']   = { '$like': '%' + searchPhrase + '%' };
+		article_conditions['$or']['start_time'] = { '$like': '%' + searchPhrase + '%' };
+	}
+
 	var offset = (current - 1) * rowCount;
 
 	Promise.join(
@@ -280,7 +289,7 @@ router.put('/', function(req, res, next) {
 			article.updateAttributes(record).then(function(article){
 
 				//clear the cache if any
-				var cache_file_name = path.join(__dirname, '../public/articles/read', id + '.html');
+				var cache_file_name = (config.frontend_location !== undefined ? config.frontend_location : '') + '/public/articles/read/' + id + '.html';
 
 				if(fs.existsSync(cache_file_name)){
 					fs.unlink(cache_file_name);

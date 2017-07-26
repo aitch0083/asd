@@ -143,6 +143,14 @@ router.post('/index', function(req, res, next){
 		order = 'User.name ' + sort_dir;
 	}
 
+	if(searchPhrase){
+
+		category_conditions['$or']  = {};
+		
+		category_conditions['$or']['title']       = { '$like': '%' + searchPhrase + '%' };
+		category_conditions['$or']['description'] = { '$like': '%' + searchPhrase + '%' };
+	}
+
 	var offset = (current - 1) * rowCount;
 
 	Promise.join(
