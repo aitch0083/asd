@@ -1,5 +1,13 @@
 <% include header %>
 
+<style type="text/css">
+.navbar-default {
+    background-color: #f8f8f8;
+    border-color: #e7e7e7;
+    background-color: #e7e7e7 !important;
+}
+</style>
+
 <!-- Section "Map" -->
 <section class="g-pt-100 g-pb-100 g-bg-gray" id="events">
     <div class="container">
@@ -24,7 +32,7 @@
             </div>
         </div>
 
-        <div class="map-with-pin" style="max-width: 800px; margin: auto;">
+        <div class="map-with-pin" style="max-width: 800px; margin: auto; font-size: 15px;">
             <%- article.get('content'); %>
         </div>
     </div>
@@ -63,7 +71,7 @@
 		                            <em class="project-item__time"><%= article.created.substr(0, 16); %></em>
 		                        </div>
 		                        <div class="project-item-content-col3">
-		                            <a class="btn-u btn-u-lg btn-u-upper" href="/articles/read/<%= article.id; %>">Learn more</a>
+		                            <a class="btn-u btn-u-lg btn-u-upper" href="/articles/read/<%= article.id; %>">Read more</a>
 		                        </div>
 		                    </div>
 		                </div>
