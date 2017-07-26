@@ -96,8 +96,9 @@ router.post('/index', function(req, res, next){
 
 		banner_conditions['$or']  = {};
 		
-		banner_conditions['$or']['title']       = { '$like': '%' + searchPhrase + '%' };
 		banner_conditions['$or']['description'] = { '$like': '%' + searchPhrase + '%' };
+		banner_conditions['$or']['start_time']  = { '$like': '%' + searchPhrase + '%' };
+		banner_conditions['$or']['end_time']    = { '$like': '%' + searchPhrase + '%' };
 	}
 
 	var offset = (current - 1) * rowCount;
