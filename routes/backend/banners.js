@@ -11,7 +11,7 @@ var fs            = require('fs');
 var cheerio       = require('cheerio');
 
 var Promise = SZ.Promise;
-var now     = moment('YYYY-MM-DD HH:mm:ss');
+var now     = moment().format('YYYY-MM-DD HH:mm:ss');
 var router  = express.Router();
 
 var front_datatable_columns = [
@@ -90,6 +90,14 @@ router.post('/index', function(req, res, next){
 
 	if(sort_col === 'author'){
 		order = 'User.name ' + sort_dir;
+	}
+
+	if(searchPhrase){
+
+		banner_conditions['$or']  = {};
+		
+		banner_conditions['$or']['title']       = { '$like': '%' + searchPhrase + '%' };
+		banner_conditions['$or']['description'] = { '$like': '%' + searchPhrase + '%' };
 	}
 
 	var offset = (current - 1) * rowCount;

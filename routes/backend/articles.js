@@ -12,7 +12,7 @@ var cheerio      = require('cheerio');
 var sanitizeHtml = require('sanitize-html');
 
 var Promise = SZ.Promise;
-var now     = moment('YYYY-MM-DD HH:mm:ss');
+var now     = moment().format('YYYY-MM-DD HH:mm:ss');
 var router  = express.Router();
 
 var front_datatable_columns = [
@@ -143,6 +143,15 @@ router.post('/index', function(req, res, next){
 
 	if(sort_col === 'author'){
 		order = 'User.name ' + sort_dir;
+	}
+
+	if(searchPhrase){
+
+		article_conditions['$or']  = {};
+		
+		article_conditions['$or']['title']      = { '$like': '%' + searchPhrase + '%' };
+		article_conditions['$or']['abstract']   = { '$like': '%' + searchPhrase + '%' };
+		article_conditions['$or']['start_time'] = { '$like': '%' + searchPhrase + '%' };
 	}
 
 	var offset = (current - 1) * rowCount;

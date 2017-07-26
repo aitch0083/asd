@@ -7,7 +7,7 @@ var Banner  = require('../../models/banner');
 var User     = require('../../models/user');
 
 var Promise = SZ.Promise;
-var now     = moment('YYYY-MM-DD HH:mm:ss');
+var now     = moment().format('YYYY-MM-DD HH:mm:ss');
 var router  = express.Router();
 
 var user_conditions = {valid: 1};
@@ -180,6 +180,15 @@ router.post('/index', function(req, res, next){
 		order = sort_col + ' ' + sort_dir;
 	} else {
 		order = 'id desc';
+	}
+
+	if(searchPhrase){
+
+		user_conditions['$or']  = {};
+		
+		user_conditions['$or']['email']    = { '$like': '%' + searchPhrase + '%' };
+		user_conditions['$or']['username'] = { '$like': '%' + searchPhrase + '%' };
+		user_conditions['$or']['name']     = { '$like': '%' + searchPhrase + '%' };
 	}
 
 	var offset = (current - 1) * rowCount;

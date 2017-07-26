@@ -7,7 +7,7 @@ var User     = require('../../models/user');
 var Category = require('../../models/category');
 
 var Promise = SZ.Promise;
-var now     = moment('YYYY-MM-DD HH:mm:ss');
+var now     = moment().format('YYYY-MM-DD HH:mm:ss');
 var router  = express.Router();
 
 var validator = function(req, res){
@@ -141,6 +141,14 @@ router.post('/index', function(req, res, next){
 
 	if(sort_col === 'author'){
 		order = 'User.name ' + sort_dir;
+	}
+
+	if(searchPhrase){
+
+		category_conditions['$or']  = {};
+		
+		category_conditions['$or']['title']       = { '$like': '%' + searchPhrase + '%' };
+		category_conditions['$or']['description'] = { '$like': '%' + searchPhrase + '%' };
 	}
 
 	var offset = (current - 1) * rowCount;
