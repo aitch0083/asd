@@ -26,6 +26,7 @@ var front_datatable_columns = [
 	'modified'
 ];
 
+//GLOBAL conditions
 var article_conditions  = {valid: 1};
 var category_conditions = {};
 var user_conditions     = {};

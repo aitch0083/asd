@@ -60,6 +60,12 @@
 			                    <input type="text" class="form-control" id="inputKeywords" v-model="form.keywords">
 			                </div>
 			            </div>
+			            <div class="form-group">
+			                <label for="inputVideoURL" class="col-sm-2 control-label">{{$t("message.video_url_field")}}</label>
+			                <div class="col-sm-10">
+			                    <input type="text" class="form-control" id="inputVideoURL" v-model="form.video_url">
+			                </div>
+			            </div>
 
 			            <div class="form-group">
 			            	<label class="col-sm-2 control-label">&nbsp;</label>
@@ -749,6 +755,7 @@ let component = {
 				category_id: null,
 				categoryerror: null,
 				keywords: null,
+				video_url_field: null,
 				approved: false,
 				at_top: false,
 				watermark: false,
