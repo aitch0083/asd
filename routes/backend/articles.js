@@ -283,7 +283,10 @@ router.put('/', function(req, res, next) {
 				selfClosing: [ 'img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta' ],
 				// URL schemes we permit 
 				allowedSchemes: [ 'http', 'https', 'mailto' ],
-				allowProtocolRelative: true
+				allowProtocolRelative: true,
+				transformTags: {
+					'br' : 'p'
+				}
 			});
 
 			article.updateAttributes(record).then(function(article){
