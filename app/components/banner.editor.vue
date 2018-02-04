@@ -55,12 +55,12 @@
 			            	<div class="col-sm-10">
 			            		<label for="inputApproved" class="checkbox-label">
 			            			{{$t("message.online_field")}}
-			            			<input id="inputOnline" name="online" type="checkbox" v-model="form.online" value="1" />
+			            			<input id="inputOnline" name="online" type="checkbox" v-model="form.online" :value="form.online?1:0" :class="form.online?'checkthis':''" />
 			            		</label>
 
 			            		<label for="inputAtTop" class="checkbox-label">
 			            			{{$t("message.youtube_field")}} 
-			            			<input id="inputYoutube" name="is_youtube" type="checkbox" v-model="form.is_youtube" value="1" />
+			            			<input id="inputYoutube" name="is_youtube" type="checkbox" v-model="form.is_youtube" :value="form.is_youtube?1:0" :class="form.is_youtube?'checkthis':''" />
 			            		</label>
 
 			            		<div class="input-group date pull-left col-sm-6">
@@ -448,6 +448,10 @@ let component = {
 		$(window).trigger('resize');
 		
 	},//eo mount
+
+	updated(){
+		$('input.checkthis').attr('checked', 'checked').closest('div').addClass('checked');
+	},//eo updated
 
 	data() {
 

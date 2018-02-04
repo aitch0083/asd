@@ -72,17 +72,17 @@
 			            	<div class="col-sm-10">
 			            		<label for="inputApproved" class="checkbox-label">
 			            			{{$t("message.approved_field")}}
-			            			<input id="inputApproved" name="approved" type="checkbox" v-model="form.approved" value="1" />
+			            			<input id="inputApproved" name="approved" type="checkbox" v-model="form.approved" :value="form.approved?1:0" :class="form.approved?'checkthis':''"/>
 			            		</label>
 
 			            		<label for="inputAtTop" class="checkbox-label">
 			            			{{$t("message.at_top_field")}} 
-			            			<input id="inputAtTop" name="at_top" type="checkbox" v-model="form.at_top" value="1" />
+			            			<input id="inputAtTop" name="at_top" type="checkbox" v-model="form.at_top" :value="form.at_top?1:0" :class="form.at_top?'checkthis':''"/>
 			            		</label>
 
 			            		<label for="inputWatermark" class="checkbox-label">
 			            			{{$t("message.watermark_field")}}
-			            			<input id="inputWatermark" name="watermark" class="checkthis" checked="checked" type="checkbox" v-model="form.watermark" value="1" />
+			            			<input id="inputWatermark" name="watermark" class="checkthis" checked="checked" type="checkbox" v-model="form.watermark" :value="form.watermark?1:0"/>
 			            		</label>
 
 		            			<div class="input-group date pull-left col-sm-3">
@@ -652,7 +652,7 @@ let component = {
 			}
 		});
 
-		let $input = $('input');
+		let $input = $('input[type=checkbox]');
 
 		$input.iCheck({
 			checkboxClass: 'icheckbox_flat-green',
@@ -661,12 +661,12 @@ let component = {
 			let name    = event.target.name;
 			let checked = event.target.checked;
 
+			console.info('name:',name,', checked:',checked);
+
 			if(name === 'at_top' || name === 'approved' || name === 'watermark'){
 				app.form[name] = checked ? 1 : 0;
 			}
 		});
-
-		$('.checkthis').iCheck('check');
 
 		$('#inputStartTime').datetimepicker({
 			format: 'yyyy-mm-dd hh:ii:00',
@@ -676,9 +676,6 @@ let component = {
 		}).on('change', (event) => {
 			app.form.start_time = event.target.value
 		});
-
-		
-		
 
 		app.bus.$on('set.form.user_id', (user_id) => {
 			$('#inputAuthor').data('user-id', user_id).trigger('change');
@@ -699,6 +696,8 @@ let component = {
 					app.form = Object.assign({}, app.form, result.data.record);
 
 					app.$refs['datum-form'].reset();
+
+					console.info('app.form:', app.form);
 
 					$editor.summernote('code', app.form.content);
 					
@@ -744,6 +743,10 @@ let component = {
 		
 	},//eo mount
 
+	updated(){
+		$('input.checkthis').attr('checked', 'checked').closest('div').addClass('checked');
+	},//eo updated
+
 	data() {
 
 		return {
@@ -756,9 +759,9 @@ let component = {
 				categoryerror: null,
 				keywords: null,
 				video_url_field: null,
-				approved: false,
-				at_top: false,
-				watermark: false,
+				approved: 0,
+				at_top: 0,
+				watermark: 1,
 				content: null,
 				abstract: null
 			},
