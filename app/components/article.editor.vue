@@ -82,7 +82,7 @@
 
 			            		<label for="inputWatermark" class="checkbox-label">
 			            			{{$t("message.watermark_field")}}
-			            			<input id="inputWatermark" name="watermark" class="checkthis" checked="checked" type="checkbox" v-model="form.watermark" :value="form.watermark?1:0"/>
+			            			<input id="inputWatermark" name="watermark" type="checkbox" v-model="form.watermark" :value="form.watermark?1:0" :class="form.watermark?'checkthis':''"/>
 			            		</label>
 
 		            			<div class="input-group date pull-left col-sm-3">
@@ -661,7 +661,7 @@ let component = {
 			let name    = event.target.name;
 			let checked = event.target.checked;
 
-			console.info('name:',name,', checked:',checked);
+			// console.info('name:',name,', checked:',checked);
 
 			if(name === 'at_top' || name === 'approved' || name === 'watermark'){
 				app.form[name] = checked ? 1 : 0;
