@@ -8,6 +8,7 @@ var Category = sequelize.define('categories', {
 	title:         { type: SZ.STRING(35),           allowNull: false, field: 'title'},
 	level:         { type: SZ.STRING(40), 		    allowNull: false, field: 'level', defaultValue: 1},
 	description:   { type: SZ.STRING(40), 		    allowNull: false, field: 'description'},
+	url:           { type: SZ.STRING(255), 		    allowNull: true,  field: 'url'},
 	dispaly:       { type: SZ.BOOLEAN,    		    allowNull: false, defaultValue: 1, field: 'display'},
 	admin:         { type: SZ.BOOLEAN,    		    allowNull: false, defaultValue: 0, field: 'for_admin'},
 	count:         { type: SZ.INTEGER(10).UNSIGNED, allowNull: false, defaultValue: 0, field: 'count'},
