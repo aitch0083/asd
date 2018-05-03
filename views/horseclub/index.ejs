@@ -13,9 +13,9 @@
 				<div class="promo-item" style="background-image: url(<%= banner.img1 %>);">
 			        <div class="container">
 			            <div class="promo-item-content">
-			            	<% if(banner.description && banner.url) { %>
+			            	<% if(banner.description && banner.plain_url) { %>
 			                <p class="g-color-white--dark g-mb-45"><%= banner.description; %></p>
-			                <a class="btn-u btn-u-lg btn-u-upper" href="<%= banner.url; %>">More...</a>
+			                <a class="btn-u btn-u-lg btn-u-upper" href="<%= banner.plain_url; %>">More...</a>
 			                <% }//eo if %>
 			            </div>
 			        </div>
