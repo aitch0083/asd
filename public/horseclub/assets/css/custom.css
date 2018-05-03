@@ -1,0 +1,43 @@
+/* Add here all your css styles (customizations) */
+.one-page-header.charity-header .navbar-nav > li > a {
+    color: #fff;
+    font-size: 1.5rem !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 10px 0 10px 35px !important;
+    margin-right: 25px;
+}
+
+.one-page-header.charity-header .navbar-brand img {
+    margin: 0 auto;
+    max-height: 83px;
+}
+
+.category_anchor{
+	background: url(/horseclub/horse_icon.fw.png) no-repeat;
+}
+
+.charity-header.one-page-header.top-nav-collapse a{
+    /*background: #e7e7e7 !important;*/
+    color: #777 !important;
+}
+
+.charity-header.one-page-header.top-nav-collapse a.category_anchor{
+	background: url(/horseclub/horse_icon.bk.png) no-repeat;	
+}
+
+.g-pt-150 {
+    padding-top: 150px;
+}
+
+@media (max-width: 980px){
+	a.category_anchor{
+		background: url(/horseclub/horse_icon.bk.png) no-repeat;
+		margin-left: 5px;
+	}
+}
+
+.article-font {
+	font-size: 15px;	
+}
+

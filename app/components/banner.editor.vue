@@ -233,8 +233,8 @@ let component = {
 
 			if(!this.form.description) {
 				toastr(this.$t("message.please_fill_description"), this.$t("message.error"), 'error');
-			} else if(!this.form.url) {
-				toastr(this.$t("message.please_fill_url"), this.$t("message.error"), 'error');
+			//} else if(!this.form.url) {
+				//toastr(this.$t("message.please_fill_url"), this.$t("message.error"), 'error');
 			} else {
 
 				app.$http.put('/api/banners', app.form)

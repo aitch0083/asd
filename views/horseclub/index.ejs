@@ -1,0 +1,119 @@
+<% include header %>
+	
+	<!-- Banners -->
+	<% if( banners !== undefined && banners.length ) { //if-#1 %>
+
+		<!-- Promo section -->
+		<div class="promo-section">
+
+			<% for(var idx in banners) { //for-#1 %>
+
+				<% var banner = banners[idx]; %>
+
+				<div class="promo-item" style="background-image: url(<%= banner.img1 %>);">
+			        <div class="container">
+			            <div class="promo-item-content">
+			            	<% if(banner.description && banner.url) { %>
+			                <p class="g-color-white--dark g-mb-45"><%= banner.description; %></p>
+			                <a class="btn-u btn-u-lg btn-u-upper" href="<%= banner.url; %>">More...</a>
+			                <% }//eo if %>
+			            </div>
+			        </div>
+			    </div>
+
+			<% } //eo for-#1 %>
+		</div>
+		<!-- /Promo section -->
+	<% }//eo if-#1 %>	
+
+	<% if( usual_articles !== undefined && usual_articles.length ) { //if-#2 %>
+		
+		<!-- Section "Projects" -->	
+		<section class="g-pt-100 g-pb-100 g-bg-gray" id="our-projects">
+
+			<div class="container">
+		        <div class="g-heading-v13 text-center g-max-width--770 g-margin-side-auto g-mb-60">
+		            <h2 class="g-mb-35">Latest <strong>news</strong></h2>
+		        </div>
+				
+				<div class="projects">
+					<% for(var idx in usual_articles) { //for-#2 %>
+
+						<% var article = usual_articles[idx]; %>
+						<div class="project-item">
+			                <div class="project-item__image">
+			                    <img src="<%= article.thumbnail %>" alt="">
+			                </div>
+			                <div class="project-item-content">
+			                    <h3 class="g-mb-15"><%= article.title; %></h3>
+			                    <p class="g-mb-25"><%= article.abstract; %>...</p>
+
+			                    <div class="project-item-content-bottom">
+			                        <div class="project-item-content-col1">
+			                        	<strong class="project-item__price">By</strong>
+			                            <div class="circle"><%= article.User.name; %></div>
+			                        </div>
+			                        <div class="project-item-content-col2">
+			                            <strong class="project-item__price">Created</strong>
+			                            <em class="project-item__time"><%= article.created.substr(0, 16); %></em>
+			                        </div>
+			                        <div class="project-item-content-col3">
+			                            <a class="btn-u btn-u-lg btn-u-upper" href="/articles/read/<%= article.id; %>">Read more</a>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div><!-- eo project-item -->
+
+					<% } //eo for-#2 %>
+				</div>
+			</div>
+		
+		</section>
+		<!-- /Section "Projects" -->
+
+	<% }//eo if-#2 %>	
+
+
+	<% if( banners !== undefined && banners.length ) { //if-#3 %>
+
+		<!-- Section "Success stories" -->
+		<section class="success-stories-section g-pt-100 g-pb-100" id="success-stories">
+		    <div class="container">
+		        <div class="g-heading-v13 text-center g-max-width--770 g-margin-side-auto g-mb-60">
+		            <h2 class="g-color-white g-mb-35">SUCCESS <strong>stories</strong></h2>
+		            <p>Contributions. Feedbacks. Growth.</p>
+		        </div>
+
+		        <div class="success-stories">
+					<% for(var idx in banners) { //for-#3 %>
+
+						<% var banner = banners[idx]; %>
+
+						<div class="success-story row">
+			                <div class="col-md-6 col-sm-6">
+			                	<% if ( banner.is_youtube ) { %>
+			                    <div class="video-wrapper">
+			                        <iframe src="<%= banner.plain_url; %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			                    </div>
+			                    <% } else { %>
+			                    <div class="video-wrapper">
+			                    	<img class="img img-responsive" src="<%= banner.img1; %>" alt="">
+			                    </div>
+			                    <% } %>
+			                </div>
+			                <div class="col-md-6 col-sm-6 success-story-content">
+			                    <strong class="success-story__name g-color-white">By <%= banner.User.name %></strong>
+			                    <em class="success-story__position g-color-default"><%= banner.created.substr(0,16) %></em>
+			                    <p><%= banner.description %></p>
+			                </div>
+			            </div>
+
+					<% } //eo for-#3 %>
+				</div>
+
+			</div>
+
+		</section>
+	<% }//eo if-#3 %>	
+
+<% include footer %>

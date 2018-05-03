@@ -64,20 +64,20 @@ router.get('/', function(req, res, next){
 
 	Promise.join(
 
-		Article.findAndCountAll({
-			where: {
-				valid: 1,
-				at_top: 1
-			},
-			limit: top_article_count,
-			order: 'id desc',
-			include: [
-				{ model:Category, as:'Category', required: true, where: category_conditions, attributes:['title', 'id'] },
-				{ model:User, as:'User', required: true, where: user_conditions, attributes:['email', 'id', 'name'] }
-			]
-		}),
+		// Article.findAndCountAll({
+		// 	where: {
+		// 		valid: 1,
+		// 		at_top: 1
+		// 	},
+		// 	limit: top_article_count,
+		// 	order: 'id desc',
+		// 	include: [
+		// 		{ model:Category, as:'Category', required: true, where: category_conditions, attributes:['title', 'id'] },
+		// 		{ model:User, as:'User', required: true, where: user_conditions, attributes:['email', 'id', 'name'] }
+		// 	]
+		// }),
 
-		Article.findAndCountAll({
+		Article.findAndCountAll({//usual articles
 			where: {
 				valid: 1,
 				at_top: 0
@@ -106,9 +106,9 @@ router.get('/', function(req, res, next){
 			]
 		})
 
-	).spread(function(top_articles, usual_articles, banners, categories){
+	//).spread(function(top_articles, usual_articles, banners, categories){
+	).spread(function(usual_articles, banners, categories){
 
-		res.locals.top_articles   = top_articles.rows;
 		res.locals.usual_articles = usual_articles.rows;
 		res.locals.banners        = banners.rows;
 		res.locals.categories     = categories.rows;

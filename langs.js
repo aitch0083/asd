@@ -130,8 +130,8 @@ module.exports = {
 	zhTW: {
 		message: {
 			hello: '你好',
-			site_small_text: 'LC',
-			site_big_text: 'LianCar 鏈車網',
+			site_small_text: '山海',
+			site_big_text: '山海觀馬場',
 			toggle_navigation: '展開',
 			message_count: '你有 {count} 則訊息',
 			notiification_count: '你有 {count} 通知',

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+
+<head>
+    <title><%= title %></title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/horseclub/favicon.ico">
+
+    <!-- Web Fonts -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=cyrillic,latin">
+
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="/horseclub/root_assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/horseclub/root_assets/css/app.css">
+    <link rel="stylesheet" href="/horseclub/root_assets/css/blocks.css">
+    <link rel="stylesheet" href="/horseclub/root_assets/css/one.style.css">
+
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet" href="/horseclub/root_assets/plugins/animate.css">
+    <link rel="stylesheet" href="/horseclub/root_assets/plugins/line-icons-pro/styles.css">
+    <link rel="stylesheet" href="/horseclub/root_assets/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/horseclub/root_assets/plugins/slick/slick.css">
+
+    <!-- CSS Theme -->
+    <link rel="stylesheet" href="/horseclub/assets/css/charity.style.css">
+
+    <!-- CSS Customization -->
+    <link rel="stylesheet" href="/horseclub/assets/css/custom.css">
+
+    <style type="text/stylesheet">html,body{background-color:#CECECE;overflow-x:hidden}article{background-color:white;padding:.25rem}#ArticleContentContainer img{height:auto!important}#ArticleContentContainer div.entry-content iframe{max-width:100%!important}#main-menu{max-width:1200px;margin-left:auto;margin-right:auto;background-color:white}#main-menu .menu-text{padding:0}.twentytwenty-overlay{display:none}.pano-container{width:100%;height:100%}.hide-pano-photo{display:none}img.pano-photos{overflow-x:hidden;width:auto;max-width:initial}.row{background:white}.footer-bar{background-color:#606060;margin-bottom:3.2rem}.footer-bar a{color:white}.title-bar-menu-button{background-color:gray}.title-bar{background:white}.top-bar-left,.top-bar-right{width:50%!important}.top-bar,.top-bar ul{background:white;padding:0}.top-bar .search-bar-menu{margin-top:.6rem}.container{background-color:white}.article-footer{margin-top:.5rem;padding:0rem 1rem;background:none}.category-title a{color:red;font-weight:700}.page-title{margin-top:3px;margin-bottom:2px;padding-bottom:0}.entry-meta{font-size:.85rem;margin-bottom:.85rem;color:#606060}.entry-content{padding:0 .5rem}.cate-card .card{padding:.125rem}.cate-card img{min-width:100%;margin-bottom:.15rem}.cate-card .card,.cate-card img{border:0}.card-section{padding:.25rem;min-height:73px;max-height:73px;overflow-y:hidden}.card-section .material-icons{font-size:0;display:none}.card-section a{color:gray;text-decoration:none}.side-bar{padding-left:.5rem}.cate-container{padding:0 .6rem}.video-card-section{margin-top:-.65rem}a.side-bar-news-cate{font-size:.85rem;color:red;display:block;width:100%}.marco-photos{display:none}.marco-preloader{border:1px solid grey;padding:1rem;text-align:center;color:darkgray;margin:.5rem auto;width:20rem}</style>
+</head>
+
+<body id="body">
+
+  <!-- Header -->
+  <nav class="charity-header one-page-header navbar navbar-default navbar-fixed-top one-page-nav-scrolling one-page-nav__fixed" data-role="navigation">
+      <div class="container">
+          <div class="menu-container page-scroll">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="/">
+                  <img class="default-logo" src="/horseclub/top_logo.png" alt="Logo">
+                  <img class="shrink-logo" src="/horseclub/top_logo.png" alt="Logo">
+              </a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse navbar-ex1-collapse">
+              <div class="menu-container">
+                  <ul class="nav navbar-nav">
+                      <% if( categories !== undefined && categories.length ) { //if-#1 %>
+                        <% for( var col in categories ) { //for-#1 %>
+                          <% var cat = categories[col]; var children = cat.Children.length; %>
+
+                          <% if( children === 0 ) { %>
+                          <li>
+                            <a class="category_anchor" href="<%= cat.url ? cat.url : '/categories/index/' + cat.id; %>">
+                              <%= cat.title; %>
+                            </a>
+                          </li>
+                          <% } else { %>
+                          <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= cat.title; %><span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                              <% for( var dol in cat.Children ) { //for-#2 %>
+                                <% var subcat = cat.Children[dol]; %>
+                                <li>
+                                  <a href="<%= subcat.url ? subcat.url : '/categories/index/' + subcat.id; %>"><%= subcat.title; %></a>
+                                </li>
+                              <% } //eo for-#2 %>
+                            </ul>
+                          </li>
+                          <% } %>
+
+                        <% } //eo for-#1 %>
+                      <% } //eo if-#1  %>
+                  </ul>
+              </div>
+          </div>
+          <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container -->
+  </nav>
+  <!-- /Header -->
