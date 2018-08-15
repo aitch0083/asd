@@ -588,7 +588,7 @@ let component = {
 			maxHeight: 500,
 			toolbar: [
 				['style',    ['style']],
-		        ['font',     ['bold', 'underline', 'clear']],
+		        ['font',     ['bold', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
 		        ['fontname', ['fontname']],
 		        ['fontsize', ['fontsize']],
 		        ['color',    ['color']],
