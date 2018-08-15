@@ -94,7 +94,7 @@ router.post('/', function(req, res, next) {
 					}
 
 					if(watermark){
-						gm(af_real_path).draw(['gravity SouthEast image Over 2,2 125,44 "' + wm_path + '"']).write(af_real_path, function(e){
+						gm(af_real_path).draw(['gravity SouthEast image Over 2,2 155,64 "' + wm_path + '"']).write(af_real_path, function(e){
 							if(e){
 								console.error(af_real_path, ' cannot be merged with watermark:', e);
 							}
